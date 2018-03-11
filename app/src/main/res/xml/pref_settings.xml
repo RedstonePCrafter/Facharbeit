@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="Data">
+
+        <EditTextPreference
+            android:inputType="numberDecimal"
+            android:key="pref_Gewicht"
+            android:singleLine="true"
+            android:summary="Wie viel wiegst du?"
+            android:title="Gewicht" />
+        <EditTextPreference
+            android:inputType="numberDecimal"
+            android:key="pref_groesse"
+            android:singleLine="true"
+            android:title="Größe"
+            android:summary="Wie groß bist du?"/>
+        <ListPreference
+            android:key="pref_sexe"
+            android:title="Geschlecht"
+            android:entries="@array/Sexe_entries"
+            android:entryValues="@array/Sexe_entries" />
+
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Profile">
+
+        <EditTextPreference
+            android:inputType="textEmailAddress"
+            android:key="pref_email"
+            android:singleLine="true"
+            android:title="Email-Adresse" />
+        <EditTextPreference
+            android:inputType="textPassword"
+            android:key="pref_password"
+            android:singleLine="true"
+            android:title="Password" />
+
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

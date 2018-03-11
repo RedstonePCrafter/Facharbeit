@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/ic_home"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:checkable="true"
+        android:title="Home">
+
+    </item>
+    <item
+        android:id="@+id/ic_data"
+        android:icon="@drawable/ic_poll_black_24dp"
+        android:checkable="true"
+        android:title="Data">
+
+    </item>
+    <item
+        android:id="@+id/ic_search"
+        android:icon="@drawable/ic_search_black_24dp"
+        android:checkable="true"
+        android:title="Search">
+
+    </item>
+    <item
+        android:id="@+id/ic_maps"
+        android:icon="@drawable/ic_map_black_24dp"
+        android:checkable="true"
+        android:title="Maps">
+
+    </item>
+    <item
+        android:id="@+id/ic_settings"
+        android:icon="@drawable/ic_person_black_24dp"
+        android:checkable="true"
+        android:title="Settings">
+
+    </item>
+</menu>

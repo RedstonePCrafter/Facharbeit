@@ -1,0 +1,12 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+        <com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
+            android:id="@+id/bottomNavViewBar"
+            android:layout_marginBottom="0dp"
+            android:layout_width="match_parent"
+            app:itemIconTint="@drawable/icontint"
+            android:layout_height="match_parent"
+            app:menu="@menu/bottom_navigation_menu"/>
+</merge>
