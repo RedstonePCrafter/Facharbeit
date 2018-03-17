@@ -1,6 +1,7 @@
 package com.example.hessel.facharbeit.Utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
@@ -13,7 +14,9 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.hessel.facharbeit.Data.DataActivity;
 import com.example.hessel.facharbeit.R;
+import com.example.hessel.facharbeit.SearchFood.SearchFoodActivity;
 
 import java.util.ArrayList;
 
@@ -47,7 +50,7 @@ public class BottomSheet {
                 // Get the GridView selected/clicked item text
                 GridItem item = (GridItem) gridViewAdapter.getItem(position);
                 Log.d(Tag,item.getText());
-                switch (item.getIcon()){
+                /*switch (item.getIcon()){
                     case R.drawable.ic_breakfast_icon:
                         addbreakfastBottomSheet(context,R.layout.layout_bottom_sheet_eat);
                         break;
@@ -61,7 +64,9 @@ public class BottomSheet {
                     case R.drawable.ic_snack_icon:
                         addbreakfastBottomSheet(context,R.layout.layout_bottom_sheet);
                         break;
-                }
+                }*/
+                Intent intent2 = new Intent(context, SearchFoodActivity.class);
+                context.startActivity(intent2);
 
                 behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 
@@ -88,72 +93,6 @@ public class BottomSheet {
 
 
         bottomSheetDialog.show();
-    }
-
-    public static void addbreakfastBottomSheet(Context context,int resource){
-        final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context);
-        final View bottomSheetView = LayoutInflater.from(context).inflate(resource, null);
-        bottomSheetDialog.setContentView(bottomSheetView);
-        //Gridvieww
-        final BottomSheetBehavior behavior = BottomSheetBehavior.from((View) bottomSheetView.getParent());
-        //Onclicklistner=>
-            //behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-        behavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-            @Override
-            public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                if (newState == BottomSheetBehavior.STATE_SETTLING){
-                    bottomSheetDialog.cancel();
-                }
-            }
-            @Override
-            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-            }
-        });
-        bottomSheetDialog.show();
-    }
-    public static void addLunchbottomSheet(Context context,int resource){
-        final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context);
-        final View bottomSheetView = LayoutInflater.from(context).inflate(resource, null);
-        bottomSheetDialog.setContentView(bottomSheetView);
-        //Gridvieww
-        final BottomSheetBehavior behavior = BottomSheetBehavior.from((View) bottomSheetView.getParent());
-        //Onclicklistner=>
-        //behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-        behavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-            @Override
-            public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                if (newState == BottomSheetBehavior.STATE_SETTLING){
-                    bottomSheetDialog.cancel();
-                }
-            }
-            @Override
-            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-            }
-        });
-        bottomSheetDialog.show();
-
-    }
-    public static void addDinnerBottomSheet(Context context,int resource){
-        final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context);
-        final View bottomSheetView = LayoutInflater.from(context).inflate(resource, null);
-        bottomSheetDialog.setContentView(bottomSheetView);
-        //Gridvieww
-        final BottomSheetBehavior behavior = BottomSheetBehavior.from((View) bottomSheetView.getParent());
-        //Onclicklistner=>
-        //behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-        behavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-            @Override
-            public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                if (newState == BottomSheetBehavior.STATE_SETTLING){
-                    bottomSheetDialog.cancel();
-                }
-            }
-            @Override
-            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-            }
-        });
-        bottomSheetDialog.show();
-
     }
     public static void addSnackBottomSheet(Context context,int resource){
         final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context);

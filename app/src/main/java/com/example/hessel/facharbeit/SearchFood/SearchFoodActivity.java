@@ -39,7 +39,6 @@ public class SearchFoodActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Log.d(TAG,"Submit: "+query);
                 submit(query);
                 return false;
             }

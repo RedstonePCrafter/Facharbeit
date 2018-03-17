@@ -41,6 +41,8 @@
         <activity android:name=".Utils.WalkthroughActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleInstance"/>
+        <activity android:name=".SearchFood.SearchFoodActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
