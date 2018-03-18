@@ -2,15 +2,10 @@ package com.example.hessel.facharbeit.PlanUtils;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
-import android.media.Image;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
-import android.support.design.widget.TabLayout;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,15 +16,10 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.hessel.facharbeit.Login.LoginActivity;
 import com.example.hessel.facharbeit.R;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.List;
 
 import static com.example.hessel.facharbeit.Home.PlansFragment.splitArrayList;
 import static com.example.hessel.facharbeit.Search.SearchActivity.splitArrayList_search;
@@ -71,7 +61,7 @@ public class PlanListAdapter extends ArrayAdapter<Plan> {
         RelativeLayout primaryAction = (RelativeLayout) convertView.findViewById(R.id.primaryAction);
         Log.d(Tag, String.valueOf(parent.getRootView().findViewById(R.id.split).getVisibility()));
 
-        TextView tvname = (TextView) convertView.findViewById(R.id.plan_name);
+        TextView tvname = (TextView) convertView.findViewById(R.id.food_name);
         final TextView tvdauer = (TextView) convertView.findViewById(R.id.plan_dauer);
         ImageView imageView =(ImageView) convertView.findViewById(R.id.secondaction);
 

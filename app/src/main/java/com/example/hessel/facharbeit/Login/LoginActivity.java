@@ -95,6 +95,7 @@ public class LoginActivity extends AppCompatActivity{
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, String.valueOf(error.getMessage()));
                 if (!SP.getString("pref_email","").isEmpty() || !SP.getString("pref_password","").isEmpty()) {
+                    finish();
                     LoginActivity.this.startActivity(new Intent(LoginActivity.this, HomeActivity.class).putExtra("online", "false"));
                 }
 
@@ -116,7 +117,9 @@ public class LoginActivity extends AppCompatActivity{
                                 SP.edit().putString("pref_email",email).commit();
                                 SP.edit().putString("pref_password",password).commit();
                             }
+                            finish();
                             LoginActivity.this.startActivity(new Intent(LoginActivity.this, HomeActivity.class).putExtra("online","true"));
+
                         } else {
                             AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this, R.style.MyDialogTheme);
                             builder.setMessage("Login failed \n" + note)
