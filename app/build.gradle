@@ -51,4 +51,7 @@ dependencies {
     //Gson-Libary
     compile 'com.google.code.gson:gson:2.8.2'
 
+    //barcodescanner
+    compile 'me.dm7.barcodescanner:zxing:1.9.8'
+
 }

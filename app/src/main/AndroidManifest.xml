@@ -3,6 +3,7 @@
     package="com.example.hessel.facharbeit">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
         android:allowBackup="true"
@@ -44,6 +45,9 @@
         <activity android:name=".SearchFood.SearchFoodActivity"
             android:screenOrientation="portrait"
             android:parentActivityName=".Home.HomeActivity"/>
+        <activity android:name=".Utils.ScannerActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".SearchFood.SearchFoodActivity"/>
     </application>
 
 </manifest>

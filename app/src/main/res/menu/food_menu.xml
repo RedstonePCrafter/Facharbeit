@@ -8,4 +8,9 @@
         android:title="Search"
         app:showAsAction="always"
         app:actionViewClass="android.widget.SearchView" />
+    <item
+        android:id="@+id/app_bar_barcode_scanner"
+        android:icon="@drawable/ic_barcode_scanner"
+        android:title="Barcode Scanner"
+        app:showAsAction="always" />
 </menu>

@@ -50,23 +50,9 @@ public class BottomSheet {
                 // Get the GridView selected/clicked item text
                 GridItem item = (GridItem) gridViewAdapter.getItem(position);
                 Log.d(Tag,item.getText());
-                /*switch (item.getIcon()){
-                    case R.drawable.ic_breakfast_icon:
-                        addbreakfastBottomSheet(context,R.layout.layout_bottom_sheet_eat);
-                        break;
-                    case R.drawable.ic_lunch_icon:
-                        addbreakfastBottomSheet(context,R.layout.layout_bottom_sheet);
-                        break;
-                    case R.drawable.ic_dinner_icon:
-                        addbreakfastBottomSheet(context,R.layout.layout_bottom_sheet);
-                        break;
-
-                    case R.drawable.ic_snack_icon:
-                        addbreakfastBottomSheet(context,R.layout.layout_bottom_sheet);
-                        break;
-                }*/
-                Intent intent2 = new Intent(context, SearchFoodActivity.class);
-                context.startActivity(intent2);
+                Intent intent = new Intent(context, SearchFoodActivity.class);
+                intent.putExtra("meal",item.getIcon());
+                context.startActivity(intent);
 
                 behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 
@@ -118,3 +104,18 @@ public class BottomSheet {
     }
 
 }
+/*switch (item.getIcon()){
+                    case R.drawable.ic_breakfast_icon:
+                        addbreakfastBottomSheet(context,R.layout.layout_bottom_sheet_eat);
+                        break;
+                    case R.drawable.ic_lunch_icon:
+                        addbreakfastBottomSheet(context,R.layout.layout_bottom_sheet);
+                        break;
+                    case R.drawable.ic_dinner_icon:
+                        addbreakfastBottomSheet(context,R.layout.layout_bottom_sheet);
+                        break;
+
+                    case R.drawable.ic_snack_icon:
+                        addbreakfastBottomSheet(context,R.layout.layout_bottom_sheet);
+                        break;
+                }*/
