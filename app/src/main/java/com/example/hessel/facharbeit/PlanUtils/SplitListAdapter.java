@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.hessel.facharbeit.R;
+import com.example.hessel.facharbeit.Search.SearchActivity;
 
 import java.util.ArrayList;
 
@@ -70,6 +71,7 @@ public class SplitListAdapter extends ArrayAdapter<Split> {
                 View parent_view =parent.getRootView();
                 ListView listView_uebung = (ListView) parent_view.findViewById(R.id.uebung);
                 ListView listView_split= (ListView) parent_view.findViewById(R.id.split);
+                ListView listView_plan= (ListView) parent_view.findViewById(R.id.plan);
                 switch (o) {
                     case 0:
                         uebungArrayList.clear();
@@ -78,7 +80,11 @@ public class SplitListAdapter extends ArrayAdapter<Split> {
                     case 1:
                         uebungArrayList_search.clear();
                         listView_uebung.setVisibility(View.GONE);
+                        listView_plan.setVisibility(View.GONE);
                         uebungArrayList_search.addAll(splitArrayList.get(position).getUebunglist());
+                        ListUtils.setDynamicHeight(listView_plan);
+                        ListUtils.setDynamicHeight(listView_split);
+                        ListUtils.setDynamicHeight(listView_uebung);
                         break;
                     case 2:
                         uebungArrayList.clear();
