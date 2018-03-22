@@ -6,11 +6,12 @@ import com.android.volley.toolbox.StringRequest;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.example.hessel.facharbeit.Login.LoginActivity.URL;
 
 
 public class SearchFoodRequest extends StringRequest {
 
-    private static final String LOGIN_REQUEST_URL = "http://192.168.178.22/foodsearch.php";
+    private static final String LOGIN_REQUEST_URL = URL+"/foodsearch.php";
     private Map<String, String> params;
 
     public SearchFoodRequest(String food, String barcode, Response.Listener<String> listener) {

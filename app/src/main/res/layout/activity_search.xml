@@ -28,23 +28,42 @@ android:id="@+id/coordinatorLayout">
         android:layout_height="wrap_content"
         android:id="@+id/rellayout2"
         android:layout_below="@+id/rellayout1"
-        android:layout_above="@id/rellayout3"            >
+        android:layout_above="@id/rellayout3">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
         <ListView
             android:id="@+id/plan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
+        <View
+            android:id="@+id/split_header"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"/>
+
         <ListView
             android:id="@+id/split"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_below="@id/split_header"/>
+
+        <View
+            android:id="@+id/uebung_header"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"/>
 
         <ListView
             android:id="@+id/uebung"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone" />
+            android:layout_below="@id/uebung_header"/>
+        </LinearLayout>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"

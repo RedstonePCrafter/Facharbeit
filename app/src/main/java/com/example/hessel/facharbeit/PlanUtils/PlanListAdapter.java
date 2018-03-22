@@ -67,7 +67,6 @@ public class PlanListAdapter extends ArrayAdapter<Plan> {
 
         tvname.setText(name);
         tvdauer.setText("Dauer: "+dauer);
-        parent.getRootView().findViewById(R.id.split);
         primaryAction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,6 +80,7 @@ public class PlanListAdapter extends ArrayAdapter<Plan> {
                         break;
                     case 1:
                         splitArrayList_search.clear();
+                        listView_split.setVisibility(View.GONE);
                         splitArrayList_search.addAll(planArrayList.get(position).getSplitlist());
                         break;
                     case 2:
@@ -102,7 +102,7 @@ public class PlanListAdapter extends ArrayAdapter<Plan> {
             public void onClick(final View view) {
                 Log.d(Tag,"Icon clicked .."+position);
 
-
+                removedItem = null;
                 final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(mContext);
                 final View bottomSheetView = inflater.inflate(R.layout.layout_bottom_sheet, null);
                 bottomSheetDialog.setContentView(bottomSheetView);

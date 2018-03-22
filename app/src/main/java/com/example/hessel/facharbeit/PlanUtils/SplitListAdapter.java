@@ -68,6 +68,8 @@ public class SplitListAdapter extends ArrayAdapter<Split> {
             @Override
             public void onClick(View view) {
                 View parent_view =parent.getRootView();
+                ListView listView_uebung = (ListView) parent_view.findViewById(R.id.uebung);
+                ListView listView_split= (ListView) parent_view.findViewById(R.id.split);
                 switch (o) {
                     case 0:
                         uebungArrayList.clear();
@@ -75,6 +77,7 @@ public class SplitListAdapter extends ArrayAdapter<Split> {
                         break;
                     case 1:
                         uebungArrayList_search.clear();
+                        listView_uebung.setVisibility(View.GONE);
                         uebungArrayList_search.addAll(splitArrayList.get(position).getUebunglist());
                         break;
                     case 2:
@@ -83,8 +86,7 @@ public class SplitListAdapter extends ArrayAdapter<Split> {
                         break;
 
                 }
-                ListView listView_uebung = (ListView) parent_view.findViewById(R.id.uebung);
-                ListView listView_split= (ListView) parent_view.findViewById(R.id.split);
+
                 listView_uebung.setVisibility(View.VISIBLE);
                 listView_split.setVisibility(View.GONE);
             }
@@ -95,7 +97,7 @@ public class SplitListAdapter extends ArrayAdapter<Split> {
             public void onClick(final View view) {
                 Log.d(Tag,"Icon clicked .."+position);
 
-
+                removedItem = null;
                 final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(mContext);
                 final View bottomSheetView = inflater.inflate(R.layout.layout_bottom_sheet, null);
                 bottomSheetDialog.setContentView(bottomSheetView);

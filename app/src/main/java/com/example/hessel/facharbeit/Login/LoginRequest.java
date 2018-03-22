@@ -6,13 +6,15 @@ import com.android.volley.toolbox.StringRequest;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.example.hessel.facharbeit.Login.LoginActivity.URL;
+
 /**
  * Created by hessel on 31.01.2018.
  */
 
 public class LoginRequest extends StringRequest {
 
-    private static final String LOGIN_REQUEST_URL = "http://192.168.178.22/login.php";
+    private static final String LOGIN_REQUEST_URL = URL+"/login.php";
     private Map<String, String> params;
 
     public LoginRequest(String email, String password, Response.Listener<String> listener, Response.ErrorListener errorListener) {

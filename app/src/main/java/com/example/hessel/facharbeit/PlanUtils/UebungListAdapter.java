@@ -69,7 +69,7 @@ public class UebungListAdapter extends ArrayAdapter<Uebung> {
             public void onClick(final View view) {
                 Log.d(Tag,"Icon clicked .."+position);
 
-
+                removedItem = null;
                 final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(mContext);
                 final View bottomSheetView = inflater.inflate(R.layout.layout_bottom_sheet, null);
                 bottomSheetDialog.setContentView(bottomSheetView);

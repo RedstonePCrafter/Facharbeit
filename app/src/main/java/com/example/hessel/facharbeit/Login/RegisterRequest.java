@@ -4,9 +4,12 @@ import android.util.Log;
 
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
+import com.example.hessel.facharbeit.R;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.example.hessel.facharbeit.Login.LoginActivity.URL;
 
 /**
  * Created by hessel on 31.01.2018.
@@ -14,7 +17,7 @@ import java.util.Map;
 
 public class RegisterRequest extends StringRequest {
 
-    private static final String REGISTER_REQUEST_URL = "http://192.168.178.22/register.php";
+    private static final String REGISTER_REQUEST_URL = URL+"/register.php";
     private Map<String, String> params;
 
     public RegisterRequest(String name,String email,String password,Response.Listener<String> listener) {
