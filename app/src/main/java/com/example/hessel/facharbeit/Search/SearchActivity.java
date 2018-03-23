@@ -1,6 +1,7 @@
 package com.example.hessel.facharbeit.Search;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.ListPreference;
@@ -11,13 +12,16 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -38,6 +42,7 @@ import com.example.hessel.facharbeit.SearchFood.SearchFoodActivity;
 import com.example.hessel.facharbeit.SearchFood.SearchFoodRequest;
 import com.example.hessel.facharbeit.Settings.SettingsActivity;
 import com.example.hessel.facharbeit.Utils.BottomNavigationViewHelper;
+import com.example.hessel.facharbeit.Utils.ScannerActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
@@ -73,6 +78,9 @@ public class SearchActivity extends AppCompatActivity{
         Log.d(TAG, "oncreate . starting");
         setupBottomNavigationView();
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
 
 
         listView_plan = (ListView) findViewById(R.id.plan);
@@ -96,15 +104,44 @@ public class SearchActivity extends AppCompatActivity{
         plan_adapter = new PlanListAdapter(mContext,R.layout.layout_listview_plan,planlist_search,1);
         listView_plan.setAdapter(plan_adapter);
 
-
-        //loadObject_Plan(planlist_search,plan_adapter,json);
-        //loadObject_Split(splitArrayList_search,split_adapter,json);
-        //loadObject_Uebung(uebungArrayList_search,uebung_adapter,json);
-
         search("p");
+    }
 
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.search_menu,menu);
+        MenuItem item = menu.findItem(R.id.app_bar_search);
+        SearchView searchView = (SearchView) item.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
 
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                //When Text changes
+                search(newText);
+                Log.d(TAG,""+newText);
+                return false;
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
+    }
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.app_bar_barcode_scanner) {
+
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void setupBottomNavigationView(){
@@ -123,6 +160,7 @@ public class SearchActivity extends AppCompatActivity{
         Log.d(TAG,""+json);
         if (planlist2 == null){
         }else{
+            plan_adapter.clear();
             planlist.addAll(planlist2);
             plan_adapter.notifyDataSetChanged();
 
@@ -136,6 +174,7 @@ public class SearchActivity extends AppCompatActivity{
         Log.d(TAG,""+json);
         if (splitlist2 == null){
         }else{
+            split_adapter.clear();
             splitlist.addAll(splitlist2);
             split_adapter.notifyDataSetChanged();
 
@@ -149,6 +188,7 @@ public class SearchActivity extends AppCompatActivity{
         Log.d(TAG,""+json);
         if (uebunglist2 == null){
         }else{
+            uebung_adapter.clear();
             uebunglist.addAll(uebunglist2);
             uebung_adapter.notifyDataSetChanged();
 
