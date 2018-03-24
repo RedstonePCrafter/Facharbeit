@@ -15,6 +15,7 @@ import com.example.hessel.facharbeit.Data.DataActivity;
 import com.example.hessel.facharbeit.Home.HomeActivity;
 import com.example.hessel.facharbeit.Login.LoginActivity;
 import com.example.hessel.facharbeit.Maps.MapsActivity;
+import com.example.hessel.facharbeit.Profile.ProfileActivity;
 import com.example.hessel.facharbeit.R;
 import com.example.hessel.facharbeit.Search.SearchActivity;
 import com.example.hessel.facharbeit.Settings.SettingsActivity;
@@ -61,7 +62,7 @@ public class BottomNavigationViewHelper {
                         context.startActivity(intent4);
                         break;
                     case R.id.ic_settings:
-                        Intent intent5 = new Intent(context, SettingsActivity.class);
+                        Intent intent5 = new Intent(context, ProfileActivity.class);
                         context.startActivity(intent5);
                         break;
                 }

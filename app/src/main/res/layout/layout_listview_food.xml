@@ -18,8 +18,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="28dp"
             android:layout_marginTop="10dp"
-            android:layout_toEndOf="@+id/icon"
-            android:layout_toRightOf="@+id/icon"
+            android:layout_toEndOf="@+id/profile_pic"
+            android:layout_toRightOf="@+id/profile_pic"
             android:text="Name"
             android:textColor="@color/white" />
 
@@ -34,7 +34,7 @@
             android:textColor="@color/white" />
 
         <ImageView
-            android:id="@+id/icon"
+            android:id="@+id/profile_pic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"

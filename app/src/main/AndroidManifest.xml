@@ -32,7 +32,8 @@
             android:launchMode="singleInstance"/>
         <activity android:name=".Settings.SettingsActivity"
             android:screenOrientation="portrait"
-            android:launchMode="singleInstance"/>
+            android:launchMode="singleInstance"
+            android:parentActivityName=".Profile.ProfileActivity"/>
         <activity android:name=".Home.HomeActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleInstance"/>
@@ -48,6 +49,9 @@
         <activity android:name=".Utils.ScannerActivity"
             android:screenOrientation="portrait"
             android:parentActivityName=".SearchFood.SearchFoodActivity"/>
+        <activity android:name=".Profile.ProfileActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleInstance"/>
     </application>
 
 </manifest>

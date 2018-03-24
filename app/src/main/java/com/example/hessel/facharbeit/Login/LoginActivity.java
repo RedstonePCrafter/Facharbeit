@@ -107,15 +107,20 @@ public class LoginActivity extends AppCompatActivity{
                 @Override
 
                 public void onResponse(String response) {
+                    Log.d(TAG,"Usernamefdg:");
                     try {
+                        Log.d(TAG,"Username:");
                         Boolean staylogged = checkBox.isChecked();
                         JSONObject jsonresponse = new JSONObject(response);
                         boolean success = jsonresponse.getBoolean("success");
                         Log.d(TAG, String.valueOf(success));
                         String note = jsonresponse.getString("note");
+                        String username = jsonresponse.getString("username");
+                        Log.d(TAG,"Username:"+username);
                         Log.d(TAG, note);
                         if (success) {
                             if (staylogged){
+                                SP.edit().putString("pref_username",username).commit();
                                 SP.edit().putString("pref_email",email).commit();
                                 SP.edit().putString("pref_password",password).commit();
                             }

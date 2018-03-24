@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,9 +33,12 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_settings);
         Log.d(Tag, "oncreate . starting");
-        setupBottomNavigationView();
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
         /*FragmentManager fragmentManager = getFragmentManager();
@@ -47,15 +51,6 @@ public class SettingsActivity extends AppCompatActivity {
                 .replace(R.id.rellayout2, new SettingsFragment()).commit();
     }
 
-    private void setupBottomNavigationView(){
-        Log.d(Tag, "BottomnavigationView setting up");
-        BottomNavigationViewEx bottomNavigationViewEx = (BottomNavigationViewEx) findViewById(R.id.bottomNavViewBar);
-        BottomNavigationViewHelper.setupBottomNavigationView(bottomNavigationViewEx);
-        BottomNavigationViewHelper.enablenavigation(mcontext,bottomNavigationViewEx);
-        Menu menu = bottomNavigationViewEx.getMenu();
-        MenuItem menuItem = menu.getItem(ACTIVITY_NUM);
-        menuItem.setChecked(true);
-    }
 
     public static class SettingsFragment extends PreferenceFragment {
         @Override
