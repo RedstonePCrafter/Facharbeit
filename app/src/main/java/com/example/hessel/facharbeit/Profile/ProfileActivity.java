@@ -36,7 +36,6 @@ public class ProfileActivity extends AppCompatActivity {
     private Context mcontext = ProfileActivity.this;
     private SharedPreferences SP;
     private TextView tv_profile_name,tv_profile_meber_since;
-    //private ImageView iv_profile_pic,iv_profile_settings;
 
 
     @Override
@@ -53,9 +52,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         tv_profile_name.setText(SP.getString("pref_username",null));
 
-        //iv_profile_pic = (ImageView) findViewById(R.id.profile_pic);
-        //iv_profile_settings = (ImageView) findViewById(R.id.profile_settings);
-
     }
 
     public void onclick_Settings(View view){
@@ -63,6 +59,9 @@ public class ProfileActivity extends AppCompatActivity {
     }
     public void onclick_Website(View view) {
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(URL)));
+    }
+    public void onclick_profile_pic(View view) {
+        Log.d(Tag,"open image explorer has been pressed");
     }
 
     private void setupBottomNavigationView(){

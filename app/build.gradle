@@ -54,4 +54,7 @@ dependencies {
     //barcodescanner
     compile 'me.dm7.barcodescanner:zxing:1.9.8'
 
+    //Circular - ImageView
+    compile 'de.hdodenhof:circleimageview:2.2.0'
+
 }
