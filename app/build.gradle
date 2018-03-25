@@ -57,4 +57,11 @@ dependencies {
     //Circular - ImageView
     compile 'de.hdodenhof:circleimageview:2.2.0'
 
+    //cardview
+    compile 'com.android.support:cardview-v7:26.1.0'
+
+    //chromeTabs
+    compile 'com.android.support:customtabs:26.1.0'
+
+
 }
