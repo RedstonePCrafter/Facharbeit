@@ -78,7 +78,7 @@
                     android:layout_alignStart="@+id/profile_name"
                     android:layout_below="@+id/profile_name"
                     android:layout_marginTop="8dp"
-                    android:text="Member since: March 2018 "
+                    android:text="Mitglied seit: März 2018"
                     android:textColor="@color/colorAccent"
                     android:textSize="11sp" />
 
@@ -99,9 +99,10 @@
                     android:id="@+id/profile_settings"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignEnd="@+id/profile_meber_since"
-                    android:layout_alignRight="@+id/profile_meber_since"
                     android:layout_alignTop="@+id/profile_button"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toEndOf="@+id/profile_button"
+                    android:layout_toRightOf="@+id/profile_button"
                     android:onClick="onclick_Settings"
                     app:srcCompat="@drawable/ic_settings_white_24dp" />
 

@@ -94,14 +94,14 @@ public class SearchActivity extends AppCompatActivity{
         uebungArrayList_search = new ArrayList<>();
         splitArrayList_search = new ArrayList<>();
 
-        uebung_adapter = new UebungListAdapter(mContext,R.layout.layout_listview_uebung,uebungArrayList_search);
+        uebung_adapter = new UebungListAdapter(mContext,R.layout.layout_listview_uebung,uebungArrayList_search,R.layout.layout_bottom_sheet_search);
         listView_uebung.setAdapter(uebung_adapter);
 
-        split_adapter = new SplitListAdapter(mContext,R.layout.layout_listview_split,splitArrayList_search,1);
+        split_adapter = new SplitListAdapter(mContext,R.layout.layout_listview_split,splitArrayList_search,R.layout.layout_bottom_sheet_search);
         listView_split.setAdapter(split_adapter);
         Log.d(TAG,listView_split.getChildCount()+"");
 
-        plan_adapter = new PlanListAdapter(mContext,R.layout.layout_listview_plan,planlist_search,1);
+        plan_adapter = new PlanListAdapter(mContext,R.layout.layout_listview_plan,planlist_search,R.layout.layout_bottom_sheet_search);
         listView_plan.setAdapter(plan_adapter);
 
         search("p");

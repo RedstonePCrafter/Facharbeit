@@ -116,10 +116,12 @@ public class LoginActivity extends AppCompatActivity{
                         Log.d(TAG, String.valueOf(success));
                         String note = jsonresponse.getString("note");
                         String username = jsonresponse.getString("username");
+                        String reg_date = jsonresponse.getString("reg_date");
                         Log.d(TAG,"Username:"+username);
                         Log.d(TAG, note);
                         if (success) {
                             if (staylogged){
+                                SP.edit().putString("pref_reg_date",reg_date).commit();
                                 SP.edit().putString("pref_username",username).commit();
                                 SP.edit().putString("pref_email",email).commit();
                                 SP.edit().putString("pref_password",password).commit();

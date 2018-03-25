@@ -33,6 +33,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.example.hessel.facharbeit.Login.LoginActivity.URL;
 import static com.example.hessel.facharbeit.Utils.CustomTabs.openInCustomTab;
+import static com.example.hessel.facharbeit.Utils.Month.getMonth;
 
 /**
  * Created by hessel on 16.12.2017.
@@ -61,6 +62,9 @@ public class ProfileActivity extends AppCompatActivity {
         tv_profile_meber_since = (TextView) findViewById(R.id.profile_meber_since);
 
         tv_profile_name.setText(SP.getString("pref_username",null));
+        String month = getMonth(Integer.parseInt(SP.getString("pref_reg_date",null).split(" ")[0]));
+        String year = SP.getString("pref_reg_date",null).split(" ")[1];
+        tv_profile_meber_since.setText("Mitglied seit: "+month+" "+year);
 
         selectedImage = (CircleImageView) findViewById(R.id.profile_pic);
         try {

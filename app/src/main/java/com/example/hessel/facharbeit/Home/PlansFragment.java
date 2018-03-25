@@ -88,14 +88,14 @@ public class PlansFragment extends Fragment {
         uebungArrayList = new ArrayList<>();
         splitArrayList = new ArrayList<>();
 
-        final UebungListAdapter uebung_adapter = new UebungListAdapter(mContext,R.layout.layout_listview_uebung,uebungArrayList);
+        final UebungListAdapter uebung_adapter = new UebungListAdapter(mContext,R.layout.layout_listview_uebung,uebungArrayList,R.layout.layout_bottom_sheet);
         listView_uebung.setAdapter(uebung_adapter);
 
-        final SplitListAdapter split_adapter = new SplitListAdapter(mContext,R.layout.layout_listview_split,splitArrayList,0);
+        final SplitListAdapter split_adapter = new SplitListAdapter(mContext,R.layout.layout_listview_split,splitArrayList,R.layout.layout_bottom_sheet);
         listView_split.setAdapter(split_adapter);
         Log.d(TAG,listView_split.getChildCount()+"");
 
-        final PlanListAdapter plan_adapter = new PlanListAdapter(mContext,R.layout.layout_listview_plan,planlist,0);
+        final PlanListAdapter plan_adapter = new PlanListAdapter(mContext,R.layout.layout_listview_plan,planlist,R.layout.layout_bottom_sheet);
         listView_plan.setAdapter(plan_adapter);
 
 
@@ -103,9 +103,6 @@ public class PlansFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 saveObject(planlist);
-                fab.clearAnimation();
-                Animation animation = AnimationUtils.loadAnimation(fab.getContext(), R.anim.pop_down);
-                fab.startAnimation(animation);
             }
         });
         loadObject(planlist,plan_adapter);

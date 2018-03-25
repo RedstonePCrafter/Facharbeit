@@ -31,12 +31,14 @@ public class UebungListAdapter extends ArrayAdapter<Uebung> {
     int mResource;
     private ArrayList<Uebung> uebungArrayList;
     private Uebung removedItem;
+    private int bottom_sheet_layout;
 
-    public UebungListAdapter(Context context, int resource, ArrayList<Uebung> objects) {
+    public UebungListAdapter(Context context, int resource, ArrayList<Uebung> objects,int bottom_sheet_layout) {
         super(context, resource, objects);
         this.mContext = context;
         mResource = resource;
         this.uebungArrayList = objects;
+        this.bottom_sheet_layout = bottom_sheet_layout;
     }
 
     @NonNull
@@ -71,40 +73,45 @@ public class UebungListAdapter extends ArrayAdapter<Uebung> {
 
                 removedItem = null;
                 final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(mContext);
-                final View bottomSheetView = inflater.inflate(R.layout.layout_bottom_sheet, null);
+                final View bottomSheetView = inflater.inflate(bottom_sheet_layout, null);
                 bottomSheetDialog.setContentView(bottomSheetView);
 
                 TextView tvItemName = (TextView) bottomSheetDialog.findViewById(R.id.itemname);
-                LinearLayout editButton = (LinearLayout) bottomSheetView.findViewById(R.id.edit_button);
-                LinearLayout deleteButton = (LinearLayout) bottomSheetView.findViewById(R.id.delete_button);
                 final BottomSheetBehavior behavior = BottomSheetBehavior.from((View) bottomSheetView.getParent());
 
 
                 tvItemName.setText(name);
 
-                Log.d(Tag, tvItemName.getText()+"");
-                editButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Log.d(Tag,"Editbutton has been clicked");
-                        behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-                        notifyDataSetChanged();
-                        //addSnackbar(view, "You are offline", "RETRY", Color.YELLOW, Color.RED,4000);
-                    }
-                });
+                switch (bottom_sheet_layout) {
+                    case R.layout.layout_bottom_sheet:
 
-                deleteButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-                        Log.d(Tag,"Deletebutton has been clicked");
-                        Log.d(Tag,""+uebungArrayList.size());
-                        removedItem = uebungArrayList.get(position);
-                        uebungArrayList.remove(position);
-                        Log.d(Tag,""+uebungArrayList.size());
-                        notifyDataSetChanged();
-                    }
-                });
+                        LinearLayout editButton = (LinearLayout) bottomSheetView.findViewById(R.id.edit_button);
+                        LinearLayout deleteButton = (LinearLayout) bottomSheetView.findViewById(R.id.delete_button);
+                        Log.d(Tag, tvItemName.getText() + "");
+                        editButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Log.d(Tag, "Editbutton has been clicked");
+                                behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+                                notifyDataSetChanged();
+                                //addSnackbar(view, "You are offline", "RETRY", Color.YELLOW, Color.RED,4000);
+                            }
+                        });
+
+                        deleteButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+                                Log.d(Tag, "Deletebutton has been clicked");
+                                Log.d(Tag, "" + uebungArrayList.size());
+                                removedItem = uebungArrayList.get(position);
+                                uebungArrayList.remove(position);
+                                Log.d(Tag, "" + uebungArrayList.size());
+                                notifyDataSetChanged();
+                            }
+                        });
+                    case R.layout.layout_bottom_sheet_search:
+                }
 
 
                 behavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {

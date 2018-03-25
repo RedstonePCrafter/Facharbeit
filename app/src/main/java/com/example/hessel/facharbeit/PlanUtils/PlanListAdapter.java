@@ -36,15 +36,15 @@ public class PlanListAdapter extends ArrayAdapter<Plan> {
     int mResource;
     private ArrayList<Plan> planArrayList;
     private Plan removedItem;
-    private int o ;
+    private int bottom_sheet_layout;
 
-    public PlanListAdapter(Context context, int resource, ArrayList<Plan> objects,int o) {
+    public PlanListAdapter(Context context, int resource, ArrayList<Plan> objects,int bottom_sheet_layout) {
         super(context, resource, objects);
         this.mContext = context;
         Log.d(Tag,"");
         this.mResource = resource;
         this.planArrayList = objects;
-        this.o=o;
+        this.bottom_sheet_layout=bottom_sheet_layout;
     }
 
     @NonNull
@@ -55,32 +55,31 @@ public class PlanListAdapter extends ArrayAdapter<Plan> {
         final String splits = String.valueOf(getItem(position).getSplitanzahl());
 
 
-
         final LayoutInflater inflater = LayoutInflater.from(mContext);
-        convertView = inflater.inflate(mResource,parent,false);
+        convertView = inflater.inflate(mResource, parent, false);
 
         RelativeLayout primaryAction = (RelativeLayout) convertView.findViewById(R.id.primaryAction);
         Log.d(Tag, String.valueOf(parent.getRootView().findViewById(R.id.split).getVisibility()));
 
         TextView tvname = (TextView) convertView.findViewById(R.id.food_name);
         final TextView tvdauer = (TextView) convertView.findViewById(R.id.plan_dauer);
-        ImageView imageView =(ImageView) convertView.findViewById(R.id.secondaction);
+        ImageView imageView = (ImageView) convertView.findViewById(R.id.secondaction);
 
         tvname.setText(name);
-        tvdauer.setText("Dauer: "+dauer);
+        tvdauer.setText("Dauer: " + dauer);
         primaryAction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                View parent_view =parent.getRootView();
+                View parent_view = parent.getRootView();
                 ListView listView_plan = (ListView) parent_view.findViewById(R.id.plan);
-                ListView listView_split= (ListView) parent_view.findViewById(R.id.split);
-                ListView listView_uebung= (ListView) parent_view.findViewById(R.id.uebung);
-                switch (o) {
-                    case 0:
+                ListView listView_split = (ListView) parent_view.findViewById(R.id.split);
+                ListView listView_uebung = (ListView) parent_view.findViewById(R.id.uebung);
+                switch (bottom_sheet_layout) {
+                    case R.layout.layout_bottom_sheet:
                         splitArrayList.clear();
                         splitArrayList.addAll(planArrayList.get(position).getSplitlist());
                         break;
-                    case 1:
+                    case R.layout.layout_bottom_sheet_search:
                         splitArrayList_search.clear();
                         listView_split.setVisibility(View.GONE);
                         listView_uebung.setVisibility(View.GONE);
@@ -89,11 +88,6 @@ public class PlanListAdapter extends ArrayAdapter<Plan> {
                         ListUtils.setDynamicHeight(listView_split);
                         ListUtils.setDynamicHeight(listView_uebung);
                         break;
-                    case 2:
-                        splitArrayList.clear();
-                        splitArrayList.addAll(planArrayList.get(position).getSplitlist());
-                        break;
-
                 }
 
                 listView_plan.setVisibility(View.GONE);
@@ -102,56 +96,61 @@ public class PlanListAdapter extends ArrayAdapter<Plan> {
         });
 
 
-
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                Log.d(Tag,"Icon clicked .."+position);
+                Log.d(Tag, "Icon clicked .." + position);
 
                 removedItem = null;
                 final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(mContext);
-                final View bottomSheetView = inflater.inflate(R.layout.layout_bottom_sheet, null);
+                final View bottomSheetView = inflater.inflate(bottom_sheet_layout, null);
                 bottomSheetDialog.setContentView(bottomSheetView);
 
-                TextView tvItemName = (TextView) bottomSheetDialog.findViewById(R.id.itemname);
-                LinearLayout editButton = (LinearLayout) bottomSheetView.findViewById(R.id.edit_button);
-                LinearLayout deleteButton = (LinearLayout) bottomSheetView.findViewById(R.id.delete_button);
                 final BottomSheetBehavior behavior = BottomSheetBehavior.from((View) bottomSheetView.getParent());
 
-
+                TextView tvItemName = (TextView) bottomSheetDialog.findViewById(R.id.itemname);
                 tvItemName.setText(name);
 
-                Log.d(Tag, tvItemName.getText()+"");
-                editButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Log.d(Tag,"Editbutton has been clicked");
-                        behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-                        notifyDataSetChanged();
-                        //addSnackbar(view, "You are offline", "RETRY", Color.YELLOW, Color.RED,4000);
-                    }
-                });
 
-                deleteButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-                        Log.d(Tag,"Deletebutton has been clicked");
-                        Log.d(Tag,""+planArrayList.size());
-                        removedItem = planArrayList.get(position);
-                        planArrayList.remove(position);
-                        Log.d(Tag,""+planArrayList.size());
-                        notifyDataSetChanged();
-                    }
-                });
+                switch (bottom_sheet_layout) {
+                    case R.layout.layout_bottom_sheet:
 
+                        final LinearLayout editButton = (LinearLayout) bottomSheetView.findViewById(R.id.edit_button);
+                        final LinearLayout deleteButton = (LinearLayout) bottomSheetView.findViewById(R.id.delete_button);
+
+                        Log.d(Tag, tvItemName.getText() + "");
+                        editButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Log.d(Tag, "Editbutton has been clicked");
+                                behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+                                notifyDataSetChanged();
+                                //addSnackbar(view, "You are offline", "RETRY", Color.YELLOW, Color.RED,4000);
+                            }
+                        });
+
+                        deleteButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+                                Log.d(Tag, "Deletebutton has been clicked");
+                                Log.d(Tag, "" + planArrayList.size());
+                                removedItem = planArrayList.get(position);
+                                planArrayList.remove(position);
+                                Log.d(Tag, "" + planArrayList.size());
+                                notifyDataSetChanged();
+                            }
+                        });
+                    case R.layout.layout_bottom_sheet_search:
+
+                }
 
                 behavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
                     @Override
                     public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                        if (newState == BottomSheetBehavior.STATE_HIDDEN){
+                        if (newState == BottomSheetBehavior.STATE_HIDDEN) {
                             bottomSheetDialog.cancel();
-                            try{
+                            try {
                                 if (!removedItem.equals(null)) {
                                     //Onclicklistener fuer Snackbar für Undo button
                                     View.OnClickListener listener = new View.OnClickListener() {
@@ -166,7 +165,7 @@ public class PlanListAdapter extends ArrayAdapter<Plan> {
                                     addSnackbar((View) parent, "Willst du wirklich den pLan löschen?", "Undo", Color.YELLOW, Color.RED, 4000, listener);
 
                                 }
-                            }catch (Exception e){
+                            } catch (Exception e) {
                                 bottomSheetDialog.cancel();
 
                             }
@@ -180,10 +179,12 @@ public class PlanListAdapter extends ArrayAdapter<Plan> {
                 });
 
 
-
                 bottomSheetDialog.show();
+
+
             }
         });
+
 
 
         return  convertView;

@@ -37,14 +37,14 @@ public class SplitListAdapter extends ArrayAdapter<Split> {
     int mResource;
     private ArrayList<Split> splitArrayList;
     private Split removedItem;
-    private int o;
+    private int bottom_sheet_layout;
 
-    public SplitListAdapter(Context context, int resource, ArrayList<Split> objects,int o) {
+    public SplitListAdapter(Context context, int resource, ArrayList<Split> objects,int bottom_sheet_layout) {
         super(context, resource, objects);
         this.mContext = context;
         this.mResource = resource;
         this.splitArrayList = objects;
-        this.o = o;
+        this.bottom_sheet_layout = bottom_sheet_layout;
     }
 
     @NonNull
@@ -72,12 +72,12 @@ public class SplitListAdapter extends ArrayAdapter<Split> {
                 ListView listView_uebung = (ListView) parent_view.findViewById(R.id.uebung);
                 ListView listView_split= (ListView) parent_view.findViewById(R.id.split);
                 ListView listView_plan= (ListView) parent_view.findViewById(R.id.plan);
-                switch (o) {
-                    case 0:
+                switch (bottom_sheet_layout) {
+                    case R.layout.layout_bottom_sheet:
                         uebungArrayList.clear();
                         uebungArrayList.addAll(splitArrayList.get(position).getUebunglist());
                         break;
-                    case 1:
+                    case R.layout.layout_bottom_sheet_search:
                         uebungArrayList_search.clear();
                         listView_uebung.setVisibility(View.GONE);
                         listView_plan.setVisibility(View.GONE);
@@ -86,11 +86,6 @@ public class SplitListAdapter extends ArrayAdapter<Split> {
                         ListUtils.setDynamicHeight(listView_split);
                         ListUtils.setDynamicHeight(listView_uebung);
                         break;
-                    case 2:
-                        uebungArrayList.clear();
-                        uebungArrayList.addAll(splitArrayList.get(position).getUebunglist());
-                        break;
-
                 }
 
                 listView_uebung.setVisibility(View.VISIBLE);
@@ -105,40 +100,46 @@ public class SplitListAdapter extends ArrayAdapter<Split> {
 
                 removedItem = null;
                 final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(mContext);
-                final View bottomSheetView = inflater.inflate(R.layout.layout_bottom_sheet, null);
+                final View bottomSheetView = inflater.inflate(bottom_sheet_layout, null);
                 bottomSheetDialog.setContentView(bottomSheetView);
 
                 TextView tvItemName = (TextView) bottomSheetDialog.findViewById(R.id.itemname);
-                LinearLayout editButton = (LinearLayout) bottomSheetView.findViewById(R.id.edit_button);
-                LinearLayout deleteButton = (LinearLayout) bottomSheetView.findViewById(R.id.delete_button);
+
                 final BottomSheetBehavior behavior = BottomSheetBehavior.from((View) bottomSheetView.getParent());
 
 
                 tvItemName.setText(name);
 
-                Log.d(Tag, tvItemName.getText()+"");
-                editButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Log.d(Tag,"Editbutton has been clicked");
-                        behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-                        notifyDataSetChanged();
-                        //addSnackbar(view, "You are offline", "RETRY", Color.YELLOW, Color.RED,4000);
-                    }
-                });
+                switch (bottom_sheet_layout) {
+                    case R.layout.layout_bottom_sheet:
 
-                deleteButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-                        Log.d(Tag,"Deletebutton has been clicked");
-                        Log.d(Tag,""+splitArrayList.size());
-                        removedItem = splitArrayList.get(position);
-                        splitArrayList.remove(position);
-                        Log.d(Tag,""+splitArrayList.size());
-                        notifyDataSetChanged();
-                    }
-                });
+                        LinearLayout editButton = (LinearLayout) bottomSheetView.findViewById(R.id.edit_button);
+                        LinearLayout deleteButton = (LinearLayout) bottomSheetView.findViewById(R.id.delete_button);
+                        Log.d(Tag, tvItemName.getText() + "");
+                        editButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Log.d(Tag, "Editbutton has been clicked");
+                                behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+                                notifyDataSetChanged();
+                                //addSnackbar(view, "You are offline", "RETRY", Color.YELLOW, Color.RED,4000);
+                            }
+                        });
+
+                        deleteButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+                                Log.d(Tag, "Deletebutton has been clicked");
+                                Log.d(Tag, "" + splitArrayList.size());
+                                removedItem = splitArrayList.get(position);
+                                splitArrayList.remove(position);
+                                Log.d(Tag, "" + splitArrayList.size());
+                                notifyDataSetChanged();
+                            }
+                        });
+                    case R.layout.layout_bottom_sheet_search:
+                }
 
 
                 behavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
