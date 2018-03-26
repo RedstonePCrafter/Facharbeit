@@ -13,4 +13,16 @@
         android:icon="@drawable/ic_barcode_scanner"
         android:title="Barcode Scanner"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/add_food"
+        android:icon="@drawable/ic_add_white_24dp"
+        android:title="Add Food" />
+    <item
+        android:id="@+id/add_meal"
+        android:icon="@drawable/ic_add_white_24dp"
+        android:title="Add Meal" />
+    <item
+        android:id="@+id/add_recipe"
+        android:icon="@drawable/ic_add_white_24dp"
+        android:title="add Recipe" />
 </menu>

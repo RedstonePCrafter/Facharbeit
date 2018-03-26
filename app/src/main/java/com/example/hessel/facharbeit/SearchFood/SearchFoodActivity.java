@@ -150,7 +150,12 @@ public class SearchFoodActivity extends AppCompatActivity {
             intent.putExtra("meal",meal);
             finish();
             mContext.startActivity(intent);
-
+        }else if(id == R.id.add_food){
+            Log.d(TAG,""+item.getTitle());
+        }else if(id == R.id.add_meal){
+            Log.d(TAG,""+item.getTitle());
+        }else if(id == R.id.add_recipe){
+            Log.d(TAG,""+item.getTitle());
         }
 
         return super.onOptionsItemSelected(item);
