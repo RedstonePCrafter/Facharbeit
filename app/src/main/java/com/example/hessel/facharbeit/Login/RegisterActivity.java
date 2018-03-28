@@ -1,6 +1,7 @@
 package com.example.hessel.facharbeit.Login;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.nfc.Tag;
 import android.os.Bundle;
@@ -65,12 +66,25 @@ public class RegisterActivity extends AppCompatActivity {
                         RegisterActivity.this.startActivity(new Intent(RegisterActivity.this,LoginActivity.class));
                     }
                     else{
-                        Log.d(TAG,"nope");
-                        AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this,R.style.MyDialogTheme);
-                        builder.setMessage("Register failed \n"+note)
-                                .setNegativeButton("Retry",null)
-                                .create()
-                                .show();
+                        if (note.equals("Bitte bestädige deine Email-Adresse.")){
+                            AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this,R.style.MyDialogTheme);
+                            builder.setMessage("Register sucess \n"+note)
+                                    .setNegativeButton("Login", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            finish();
+
+                                        }
+                                    })
+                                    .create()
+                                    .show();
+                        }else {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this, R.style.MyDialogTheme);
+                            builder.setMessage("Register failed \n" + note)
+                                    .setNegativeButton("Retry", null)
+                                    .create()
+                                    .show();
+                        }
                     }
                 } catch (JSONException e) {
                     Log.d(TAG,"nope");
