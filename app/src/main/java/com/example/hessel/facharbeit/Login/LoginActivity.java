@@ -83,13 +83,14 @@ public class LoginActivity extends AppCompatActivity{
         email = log_email.getText().toString();
         password = log_pass.getText().toString();
         Log.d(TAG,"Email:"+email+" Password:"+password);
-
-
         sendRequest();
-
-
-
     }
+    public void onclick_forgotPassword(View view){
+        finish();
+        Log.d(TAG,"astart");
+        LoginActivity.this.startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class));
+    }
+
 
     public void sendRequest(){
         Response.ErrorListener errorListener = new Response.ErrorListener() {
