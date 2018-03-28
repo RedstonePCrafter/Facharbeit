@@ -2,6 +2,7 @@ package com.example.hessel.facharbeit.SearchFood;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.hessel.facharbeit.R;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -39,7 +41,7 @@ public class FoodListAdapter extends ArrayAdapter<Food> {
         final String name = getItem(position).getName();
         //String dauer = getItem(position).getDauer();
         //final String splits = String.valueOf(getItem(position).getSplitanzahl());
-        int calories = getItem(position).getCalories();
+        final int calories = getItem(position).getCalories();
 
 
 
@@ -57,6 +59,12 @@ public class FoodListAdapter extends ArrayAdapter<Food> {
             @Override
             public void onClick(View view) {
                 Log.d(Tag,"You pressed "+name);
+                Food food = getItem(position);
+                Gson gson = new Gson();
+                String json = gson.toJson(food);
+                Intent intent = new Intent(mContext,FoodActivity.class);
+                intent.putExtra("food",json);
+                mContext.startActivity(intent);
             }
         });
 
