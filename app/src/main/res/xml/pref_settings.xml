@@ -37,7 +37,8 @@
             android:singleLine="true"
             android:title="Password" />
 
-
     </PreferenceCategory>
+    <Preference android:title="LOGOUT"
+        android:key="pref_logout" />
 
 </PreferenceScreen>

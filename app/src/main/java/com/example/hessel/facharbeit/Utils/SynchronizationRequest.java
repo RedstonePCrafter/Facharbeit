@@ -27,7 +27,6 @@ public class SynchronizationRequest extends StringRequest {
         params.put("gewicht", gewicht);
         params.put("groesse", groesse);
         params.put("password",password);
-        Log.d("syn","gfkhgfh");
 
     }
 

@@ -5,8 +5,10 @@ import android.app.FragmentManager;
 import android.app.FragmentManagerNonConfig;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -15,10 +17,13 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter;
 import com.example.hessel.facharbeit.Home.SectionsPagerAdapter;
+import com.example.hessel.facharbeit.Login.LoginActivity;
+import com.example.hessel.facharbeit.Login.RegisterActivity;
 import com.example.hessel.facharbeit.R;
 import com.example.hessel.facharbeit.Utils.BottomNavigationViewHelper;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
@@ -59,11 +64,24 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
 
+
     public static class SettingsFragment extends PreferenceFragment {
         @Override
         public void onCreate(Bundle savedInstanceState){
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_settings);
+            Preference logout = (Preference) findPreference("pref_logout");
+            logout.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    Log.d(Tag, "logout");
+                    SP.edit().clear().commit();
+                    getActivity().finish();
+                    startActivity(new Intent(getActivity(), LoginActivity.class));
+                    return true;
+                }
+            });
+
         }
     }
 
@@ -72,4 +90,6 @@ public class SettingsActivity extends AppCompatActivity {
         super.onPause();
         synchronize(SP,SettingsActivity.this);
     }
+
+
 }

@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
@@ -81,6 +82,8 @@ public class HomeActivity extends AppCompatActivity {
         tabLayout.getTabAt(1).setText("Caloriecounter");
         tabLayout.getTabAt(0).setText("Timer");
         tabLayout.getTabAt(2).setText("Plans");
+
+
 
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

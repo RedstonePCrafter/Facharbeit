@@ -23,10 +23,8 @@ public class Synchronization {
         final String TAG ="Synchronization";
         String gewicht = SP.getString("pref_Gewicht","");
         String groesse = SP.getString("pref_groesse","");
-        Log.d(TAG,"Gewicht:"+gewicht+"Größe:"+groesse);
         String email = SP.getString("pref_email","");
         String password = SP.getString("pref_password","");
-        Log.d(TAG,email+password);
 
 
 
@@ -34,7 +32,6 @@ public class Synchronization {
         final Response.Listener<String> responseListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.d(TAG,"gfhgj");
                 try {
                     JSONObject jsonresponse = new JSONObject(response);
                     boolean success = jsonresponse.getBoolean("success");
@@ -42,8 +39,6 @@ public class Synchronization {
                     Log.d(TAG,note);
                     Log.d(TAG,""+success);
                     if (success){
-                        Log.d(TAG,"sucess");
-                        Log.d(TAG,"henrik");
                     }
                     else{
                         Log.d(TAG,"nope");

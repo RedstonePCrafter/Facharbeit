@@ -109,18 +109,16 @@ public class LoginActivity extends AppCompatActivity{
                 public void onResponse(String response) {
                     Log.d(TAG,"Usernamefdg:");
                     try {
-                        Log.d(TAG,"Username:");
                         Boolean staylogged = checkBox.isChecked();
                         JSONObject jsonresponse = new JSONObject(response);
                         boolean success = jsonresponse.getBoolean("success");
                         Log.d(TAG, String.valueOf(success));
                         String note = jsonresponse.getString("note");
-                        String username = jsonresponse.getString("username");
-                        String reg_date = jsonresponse.getString("reg_date");
-                        Log.d(TAG,"Username:"+username);
                         Log.d(TAG, note);
                         if (success) {
                             if (staylogged){
+                                String username = jsonresponse.getString("username");
+                                String reg_date = jsonresponse.getString("reg_date");
                                 SP.edit().putString("pref_reg_date",reg_date).commit();
                                 SP.edit().putString("pref_username",username).commit();
                                 SP.edit().putString("pref_email",email).commit();
@@ -130,6 +128,7 @@ public class LoginActivity extends AppCompatActivity{
                             LoginActivity.this.startActivity(new Intent(LoginActivity.this, HomeActivity.class).putExtra("online","true"));
 
                         } else {
+                            Log.d(TAG,"alert-dialog");
                             AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this, R.style.MyDialogTheme);
                             builder.setMessage("Login failed \n" + note)
                                     .setNegativeButton("Retry", null)
