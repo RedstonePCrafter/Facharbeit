@@ -6,19 +6,23 @@ package com.example.hessel.facharbeit.SearchFood;
 
 public class FoodCount {
     private Food food;
+    private String name;
     private float count;
     private int calories;
     private int protein;
     private int carbohydrates;
     private int fats;
+    private String unit;
 
-    public FoodCount(Food food, float count) {
+    public FoodCount(Food food) {
         this.food = food;
-        this.count = count;
+        this.count = 1;
         this.calories = (int) (food.getCalories()*this.count);
         this.protein = (int) (food.getProtein()*this.count);
         this.carbohydrates = (int) (food.getCarbohydrates()*this.count);
         this.fats = (int) (food.getFats()*this.count);
+        this.name = food.getName();
+        this.unit = food.getUnit();
     }
 
     public Food getFood() {
@@ -35,6 +39,10 @@ public class FoodCount {
 
     public void setCount(float count) {
         this.count = count;
+        this.calories = (int) (food.getCalories()*this.count);
+        this.protein = (int) (food.getProtein()*this.count);
+        this.carbohydrates = (int) (food.getCarbohydrates()*this.count);
+        this.fats = (int) (food.getFats()*this.count);
     }
 
     public int getCalories() {
@@ -68,4 +76,17 @@ public class FoodCount {
     public void setFats(int fats) {
         this.fats = fats;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
 }

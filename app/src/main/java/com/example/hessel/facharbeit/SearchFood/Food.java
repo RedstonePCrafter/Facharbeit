@@ -7,13 +7,16 @@ public class Food {
     private int protein;
     private int carbohydrates;
     private int fats;
+    private String unit;
 
-    public Food(String name, int calories, int protein, int carbohydrates, int fats) {
+    public Food(String name, int calories, int protein, int carbohydrates, int fats,String unit) {
         this.name = name;
+
         this.calories = calories;
         this.protein = protein;
         this.carbohydrates = carbohydrates;
         this.fats = fats;
+        this.unit = unit;
     }
 
     public String getName() {
@@ -54,5 +57,13 @@ public class Food {
 
     public void setFats(int fats) {
         this.fats = fats;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 }
