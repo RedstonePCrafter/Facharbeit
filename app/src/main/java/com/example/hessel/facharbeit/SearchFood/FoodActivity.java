@@ -38,6 +38,7 @@ public class FoodActivity extends AppCompatActivity {
     private Context mcontext = FoodActivity.this;
     private FoodCount foodCount;
     private PieChart protein_chart,carbohydrates_chart,fats_chart;
+    private TextView protein,carbohydrates,fats;
     public static final int[] Colors = {
             rgb("#ffffff"), rgb("#626262"),
     };
@@ -57,17 +58,27 @@ public class FoodActivity extends AppCompatActivity {
         fats_chart = (PieChart) findViewById(R.id.fats_chart);
         chartInit(fats_chart);
 
+
         setChart(protein_chart,0);
         setChart(carbohydrates_chart,1);
         setChart(fats_chart,2);
 
+        final TextView calorie = (TextView) findViewById(R.id.calorie);
+        final TextView protein = (TextView) findViewById(R.id.protein);
+        final TextView carbohydrates = (TextView) findViewById(R.id.carbohydrates);
+        final TextView fats = (TextView) findViewById(R.id.fats);
+
+        calorie.setText(String.valueOf(foodCount.getCalories()));
+        protein.setText(String.valueOf(foodCount.getProtein())+" g");
+        carbohydrates.setText(String.valueOf(foodCount.getCarbohydrates())+" g");;
+        fats.setText(String.valueOf(foodCount.getFats())+" g");
 
         TextView unit = (TextView) findViewById(R.id.unit);
         unit.setText(foodCount.getUnit());
 
         EditText count = (EditText) findViewById(R.id.count);
 
-        final TextView calorie = (TextView) findViewById(R.id.calorie);
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -83,12 +94,17 @@ public class FoodActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (String.valueOf(charSequence).equals("") || Integer.parseInt(String.valueOf(charSequence))==0) {
-                    foodCount.setCount(0);
+                        foodCount.setCount(0);
                 }else {
                     foodCount.setCount(Integer.parseInt(String.valueOf(charSequence)));
 
                 }
+
                 calorie.setText(String.valueOf(foodCount.getCalories()));
+                protein.setText(String.valueOf(foodCount.getProtein())+" g");
+                carbohydrates.setText(String.valueOf(foodCount.getCarbohydrates())+" g");;
+                fats.setText(String.valueOf(foodCount.getFats())+" g");
+
 
 
             }
