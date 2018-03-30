@@ -30,7 +30,7 @@
             android:layout_alignLeft="@+id/food_name"
             android:layout_alignStart="@+id/food_name"
             android:layout_below="@+id/food_name"
-            android:text="Plan dauer"
+            android:text="Foodcalorie"
             android:textColor="@color/white" />
 
         <ImageView

@@ -130,6 +130,7 @@ public class FoodActivity extends AppCompatActivity {
         Gson gson = new Gson();
         String json = gson.toJson(foodCount);
         SP.edit().putString("foodCount", json).commit();
+        finish();
         mcontext.startActivity(new Intent(mcontext,HomeActivity.class));
     }
 

@@ -45,6 +45,8 @@ public class FoodCountListAdapter extends ArrayAdapter<FoodCount> {
         //String dauer = getItem(position).getDauer();
         //final String splits = String.valueOf(getItem(position).getSplitanzahl());
         final int calories = getItem(position).getCalories();
+        final float count = getItem(position).getCount();
+        final String unit = getItem(position).getUnit();
 
 
 
@@ -57,7 +59,7 @@ public class FoodCountListAdapter extends ArrayAdapter<FoodCount> {
         TextView tvcalorie = (TextView) convertView.findViewById(R.id.food_calorie);
 
         tvname.setText(name);
-        tvcalorie.setText(calories+" kcal");
+        tvcalorie.setText(calories+" kcal ⋅ "+count +" "+unit);
         primaryAction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
