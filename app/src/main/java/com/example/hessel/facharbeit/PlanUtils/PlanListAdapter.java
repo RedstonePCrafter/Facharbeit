@@ -1,11 +1,13 @@
 package com.example.hessel.facharbeit.PlanUtils;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.hessel.facharbeit.Plan.PlanActivity;
 import com.example.hessel.facharbeit.R;
 import com.example.hessel.facharbeit.Search.SearchActivity;
 
@@ -74,6 +77,7 @@ public class PlanListAdapter extends ArrayAdapter<Plan> {
                 ListView listView_plan = (ListView) parent_view.findViewById(R.id.plan);
                 ListView listView_split = (ListView) parent_view.findViewById(R.id.split);
                 ListView listView_uebung = (ListView) parent_view.findViewById(R.id.uebung);
+
                 switch (bottom_sheet_layout) {
                     case R.layout.layout_bottom_sheet:
                         splitArrayList.clear();

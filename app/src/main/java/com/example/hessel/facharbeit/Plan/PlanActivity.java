@@ -1,18 +1,21 @@
 package com.example.hessel.facharbeit.Plan;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ListView;
 
 import com.example.hessel.facharbeit.PlanUtils.Plan;
@@ -23,6 +26,7 @@ import com.example.hessel.facharbeit.PlanUtils.Uebung;
 import com.example.hessel.facharbeit.PlanUtils.UebungListAdapter;
 import com.example.hessel.facharbeit.R;
 import com.example.hessel.facharbeit.Utils.BottomNavigationViewHelper;
+import com.example.hessel.facharbeit.Utils.ScannerActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
@@ -53,7 +57,7 @@ public class PlanActivity extends AppCompatActivity {
         setContentView(R.layout.activity_plan);
         Log.d(Tag, "oncreate . starting");
         setupBottomNavigationView();
-        SP = PreferenceManager.getDefaultSharedPreferences(mcontext);
+        SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
 
@@ -62,6 +66,22 @@ public class PlanActivity extends AppCompatActivity {
         listView_split = (ListView) findViewById(R.id.split);
         listView_uebung = (ListView) findViewById(R.id.uebung);
         start();
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+
+        listView_plan.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                if (listView_plan.getVisibility()==View.VISIBLE){
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                }else{
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                }
+            }
+        });
+
     }
 
     public void start(){
@@ -126,4 +146,25 @@ public class PlanActivity extends AppCompatActivity {
         MenuItem menuItem = menu.getItem(ACTIVITY_NUM);
         menuItem.setChecked(true);
     }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id ==android.R.id.home){
+            if (listView_split.getVisibility()==View.VISIBLE){
+                listView_plan.setVisibility(View.VISIBLE);
+                listView_split.setVisibility(View.GONE);
+            }
+            if (listView_uebung.getVisibility()==View.VISIBLE){
+                listView_split.setVisibility(View.VISIBLE);
+                listView_uebung.setVisibility(View.GONE);
+            }
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
 }

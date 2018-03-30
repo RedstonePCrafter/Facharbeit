@@ -108,10 +108,7 @@ public class HomeActivity extends AppCompatActivity {
 
         listView_breakfast = (ListView) findViewById(R.id.breakfast);
         breakfast_list = new ArrayList<>();
-        breakfast_list.add(new FoodCount(new Food("",0,0,0,0,"")));
-        breakfast_list.add(new FoodCount(new Food("",0,0,0,0,"")));
-        breakfast_list.add(new FoodCount(new Food("",0,0,0,0,"")));
-        breakfast_list.add(new FoodCount(new Food("",0,0,0,0,"")));
+        //breakfast_list.add(new FoodCount(new Food("",0,0,0,0,"")));
 
         breakfast_adapter = new FoodCountListAdapter(mcontext,R.layout.layout_listview_food,breakfast_list);
         listView_breakfast.setAdapter(breakfast_adapter);
@@ -119,10 +116,7 @@ public class HomeActivity extends AppCompatActivity {
 
         listView_lunch = (ListView) findViewById(R.id.lunch);
         lunch_list = new ArrayList<>();
-        lunch_list.add(new FoodCount(new Food("",0,0,0,0,"")));
-        lunch_list.add(new FoodCount(new Food("",0,0,0,0,"")));
-        lunch_list.add(new FoodCount(new Food("",0,0,0,0,"")));
-        lunch_list.add(new FoodCount(new Food("",0,0,0,0,"")));
+        //lunch_list.add(new FoodCount(new Food("",0,0,0,0,"")));
 
         lunch_adapter = new FoodCountListAdapter(mcontext,R.layout.layout_listview_food,lunch_list);
         listView_lunch.setAdapter(lunch_adapter);
@@ -130,10 +124,8 @@ public class HomeActivity extends AppCompatActivity {
 
         listView_dinner = (ListView) findViewById(R.id.dinner);
         dinner_list = new ArrayList<>();
-        dinner_list.add(new FoodCount(new Food("",0,0,0,0,"")));
-        dinner_list.add(new FoodCount(new Food("",0,0,0,0,"")));
-        dinner_list.add(new FoodCount(new Food("",0,0,0,0,"")));
-        dinner_list.add(new FoodCount(new Food("",0,0,0,0,"")));
+        //dinner_list.add(new FoodCount(new Food("",0,0,0,0,"")));
+
 
         dinner_adapter = new FoodCountListAdapter(mcontext,R.layout.layout_listview_food,dinner_list);
         listView_dinner.setAdapter(dinner_adapter);
@@ -142,10 +134,7 @@ public class HomeActivity extends AppCompatActivity {
 
         listView_snack = (ListView) findViewById(R.id.snack);
         snack_list = new ArrayList<>();
-        snack_list.add(new FoodCount(new Food("",0,0,0,0,"")));
-        snack_list.add(new FoodCount(new Food("",0,0,0,0,"")));
-        snack_list.add(new FoodCount(new Food("",0,0,0,0,"")));
-        snack_list.add(new FoodCount(new Food("",0,0,0,0,"")));
+        //snack_list.add(new FoodCount(new Food("",0,0,0,0,"")));
 
         snack_adapter = new FoodCountListAdapter(mcontext,R.layout.layout_listview_food,snack_list);
         listView_snack.setAdapter(snack_adapter);
@@ -159,6 +148,11 @@ public class HomeActivity extends AppCompatActivity {
         super.onPostResume();
 
         addtoMeal(loadFoodCount());
+        /*breakfast_list = loadFoodCountList("breakfast_list");
+        lunch_list = loadFoodCountList("lunch_list");
+        dinner_list = loadFoodCountList("dinner_list");
+        snack_list = loadFoodCountList("snack_list");*/
+
 
 
     }
@@ -276,8 +270,16 @@ public class HomeActivity extends AppCompatActivity {
         String json = SP.getString("foodCount","");
         Type type = new TypeToken<FoodCount>() {}.getType();
         SP.edit().putString("foodCount","").commit();
+        Log.d(Tag,json);
         return gson.fromJson(json,type);
 
+    }
+
+    public ArrayList<FoodCount> loadFoodCountList(String list){
+        Gson gson = new Gson();
+        String json = SP.getString(list,"");
+        Type type = new TypeToken<ArrayList<FoodCount>>() {}.getType();
+        return gson.fromJson(json,type);
     }
 
     public void addtoMeal(FoodCount foodCount){

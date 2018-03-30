@@ -8,10 +8,11 @@ public class Food {
     private int carbohydrates;
     private int fats;
     private String unit;
+    private String barcode;
 
-    public Food(String name, int calories, int protein, int carbohydrates, int fats,String unit) {
+    public Food(String name, int calories, int protein, int carbohydrates, int fats,String unit,String barcode) {
         this.name = name;
-
+        this.barcode = barcode;
         this.calories = calories;
         this.protein = protein;
         this.carbohydrates = carbohydrates;
