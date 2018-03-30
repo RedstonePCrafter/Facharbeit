@@ -22,8 +22,7 @@ import com.example.hessel.facharbeit.Search.SearchActivity;
 
 import java.util.ArrayList;
 
-import static com.example.hessel.facharbeit.Home.PlansFragment.splitArrayList;
-import static com.example.hessel.facharbeit.Home.PlansFragment.uebungArrayList;
+import static com.example.hessel.facharbeit.Plan.PlanActivity.uebungArrayList;
 import static com.example.hessel.facharbeit.Search.SearchActivity.uebungArrayList_search;
 import static com.example.hessel.facharbeit.Utils.SnackbarHelper.addSnackbar;
 

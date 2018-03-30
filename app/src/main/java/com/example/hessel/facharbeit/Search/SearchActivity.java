@@ -104,7 +104,7 @@ public class SearchActivity extends AppCompatActivity{
         plan_adapter = new PlanListAdapter(mContext,R.layout.layout_listview_plan,planlist_search,R.layout.layout_bottom_sheet_search);
         listView_plan.setAdapter(plan_adapter);
 
-        search("p");
+        search(" ");
     }
 
 

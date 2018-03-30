@@ -14,7 +14,7 @@ import android.view.MenuItem;
 import com.example.hessel.facharbeit.Data.DataActivity;
 import com.example.hessel.facharbeit.Home.HomeActivity;
 import com.example.hessel.facharbeit.Login.LoginActivity;
-import com.example.hessel.facharbeit.Maps.MapsActivity;
+import com.example.hessel.facharbeit.Plan.PlanActivity;
 import com.example.hessel.facharbeit.Profile.ProfileActivity;
 import com.example.hessel.facharbeit.R;
 import com.example.hessel.facharbeit.Search.SearchActivity;
@@ -50,7 +50,7 @@ public class BottomNavigationViewHelper {
                         context.startActivity(intent1);
                         break;
                     case R.id.ic_data:
-                        Intent intent2 = new Intent(context, DataActivity.class);
+                        Intent intent2 = new Intent(context, PlanActivity.class);
                         context.startActivity(intent2);
                         break;
                     case R.id.ic_search:
@@ -58,7 +58,7 @@ public class BottomNavigationViewHelper {
                         context.startActivity(intent3);
                         break;
                     case R.id.ic_maps:
-                        Intent intent4 = new Intent(context, WalkthroughActivity.class);
+                        Intent intent4 = new Intent(context, PlanActivity.class);
                         context.startActivity(intent4);
                         break;
                     case R.id.ic_settings:

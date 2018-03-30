@@ -2,17 +2,22 @@ package com.example.hessel.facharbeit.SearchFood;
 
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.hessel.facharbeit.Home.HomeActivity;
 import com.example.hessel.facharbeit.R;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
@@ -37,17 +42,21 @@ public class FoodActivity extends AppCompatActivity {
     private static final String Tag = "FoodActivity";
     private Context mcontext = FoodActivity.this;
     private FoodCount foodCount;
+    private SharedPreferences SP;
     private PieChart protein_chart,carbohydrates_chart,fats_chart;
     private TextView protein,carbohydrates,fats;
     public static final int[] Colors = {
-            rgb("#ffffff"), rgb("#626262"),
+            rgb("#ffffff"), rgb("#626262")
     };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food);
-        loadFood();
 
+
+        SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
+        loadFoodCount();
 
         protein_chart = (PieChart) findViewById(R.id.protein_chart);
         chartInit(protein_chart);
@@ -115,21 +124,21 @@ public class FoodActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-
-
-
     }
 
-    public void loadFood(){
+    public void onclick_fab(View view){
         Gson gson = new Gson();
-        String json = getIntent().getStringExtra("food");
-        Type type = new TypeToken<Food>() {}.getType();
-        Food food = gson.fromJson(json,type);
-        FoodCount foodCount1 = new FoodCount(food);
-        foodCount = foodCount1;
+        String json = gson.toJson(foodCount);
+        SP.edit().putString("foodCount", json).commit();
+        mcontext.startActivity(new Intent(mcontext,HomeActivity.class));
+    }
+
+    public void loadFoodCount(){
+        Gson gson = new Gson();
+        String json = SP.getString("foodCount","");
+        Type type = new TypeToken<FoodCount>() {}.getType();
+        foodCount = gson.fromJson(json,type);
+        SP.edit().putString("foodCount", "").commit();
 
     }
 

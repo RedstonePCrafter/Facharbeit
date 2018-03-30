@@ -13,6 +13,7 @@ public class FoodCount {
     private int carbohydrates;
     private int fats;
     private String unit;
+    private String meal;
 
     public FoodCount(Food food) {
         this.food = food;
@@ -89,4 +90,11 @@ public class FoodCount {
         return unit;
     }
 
+    public String getMeal() {
+        return meal;
+    }
+
+    public void setMeal(String meal) {
+        this.meal = meal;
+    }
 }

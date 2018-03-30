@@ -2,7 +2,9 @@ package com.example.hessel.facharbeit.Utils;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
@@ -28,19 +30,22 @@ import static com.example.hessel.facharbeit.Utils.SnackbarHelper.addSnackbar;
 
 public class BottomSheet {
     private static final String Tag="BottomSheet";
+    private static SharedPreferences SP;
 
     public static void homeFragementBottomSheet(final Context context, int resource){
         final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context);
         final View bottomSheetView = LayoutInflater.from(context).inflate(resource, null);
         bottomSheetDialog.setContentView(bottomSheetView);
 
+        SP = PreferenceManager.getDefaultSharedPreferences(context);
+
         //Gridvieww
         GridView gridView= (GridView) bottomSheetDialog.findViewById(R.id.grid_view);
         ArrayList<GridItem> gridItems = new ArrayList<>();
-        gridItems.add(new GridItem("Frühstück",R.drawable.ic_breakfast_icon));
-        gridItems.add(new GridItem("Mittagessen",R.drawable.ic_lunch_icon));
-        gridItems.add(new GridItem("Abendessen",R.drawable.ic_dinner_icon));
-        gridItems.add(new GridItem("Snacks",R.drawable.ic_snack_icon));
+        gridItems.add(new GridItem("Breakfast",R.drawable.ic_breakfast_icon));
+        gridItems.add(new GridItem("Lunch",R.drawable.ic_lunch_icon));
+        gridItems.add(new GridItem("Dinner",R.drawable.ic_dinner_icon));
+        gridItems.add(new GridItem("Snack",R.drawable.ic_snack_icon));
         final GridViewAdapter gridViewAdapter = new GridViewAdapter(context,gridItems);
         gridView.setAdapter(gridViewAdapter);
         final BottomSheetBehavior behavior = BottomSheetBehavior.from((View) bottomSheetView.getParent());
@@ -50,10 +55,9 @@ public class BottomSheet {
                 // Get the GridView selected/clicked item text
                 GridItem item = (GridItem) gridViewAdapter.getItem(position);
                 Log.d(Tag,item.getText());
-                Intent intent = new Intent(context, SearchFoodActivity.class);
-                intent.putExtra("meal",item.getIcon());
-                context.startActivity(intent);
-
+                SP.edit().putString("meal", item.getText()).commit();
+                Log.d(Tag,SP.getString("meal",""));
+                context.startActivity(new Intent(context, SearchFoodActivity.class));
                 behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 
             }

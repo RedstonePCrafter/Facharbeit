@@ -2,7 +2,9 @@ package com.example.hessel.facharbeit.SearchFood;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -34,32 +36,30 @@ public class SearchFoodActivity extends AppCompatActivity {
     private Context mContext = SearchFoodActivity.this;
     private FoodListAdapter food_adapter;
     private ZXingScannerView scannerView;
-    private String meal;
+    private SharedPreferences SP;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_searchfood);
+        SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent intent= getIntent();
-
         try {
-            if(!intent.getStringExtra("barcode-meal").equals("")) {
-                submit(intent.getStringExtra("barcode-meal").split(" ")[0], true);
-                meal = intent.getStringExtra("barcode-meal").split(" ")[1];
+            if(!SP.getString("barcode","").equals("")) {
+                submit(SP.getString("barcode", ""), true);
             }
-        }catch (Exception e){
-            meal = getActionbarTitle(intent.getIntExtra("meal",0));
-        }
-        getSupportActionBar().setTitle(meal);
+        }catch (Exception e){}
 
+        Log.d(TAG,SP.getString("meal",""));
+        getSupportActionBar().setTitle(SP.getString("meal",""));
         ListView listView_food = (ListView) findViewById(R.id.food);
 
-        food_adapter = new FoodListAdapter(mContext,R.layout.layout_listview_food,foodlist);
+        food_adapter = new FoodListAdapter(mContext,R.layout.layout_listview_food,foodlist,SP.getString("meal",""));
         listView_food.setAdapter(food_adapter);
 
 
@@ -146,10 +146,7 @@ public class SearchFoodActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.app_bar_barcode_scanner) {
-            Intent intent = new Intent(mContext, ScannerActivity.class);
-            intent.putExtra("meal",meal);
-            finish();
-            mContext.startActivity(intent);
+            mContext.startActivity(new Intent(mContext, ScannerActivity.class));
         }else if(id == R.id.add_food){
             Log.d(TAG,""+item.getTitle());
         }else if(id == R.id.add_meal){

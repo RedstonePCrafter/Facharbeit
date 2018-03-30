@@ -19,18 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <android.support.design.widget.AppBarLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <android.support.v7.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="15dp"/>
-
-
-            </android.support.design.widget.AppBarLayout>
+            <include layout="@layout/layout_top_tabs"/>
 
         </RelativeLayout>
         <!-- Middle -->
@@ -39,27 +28,25 @@
             android:layout_height="wrap_content"
             android:id="@+id/rellayout2"
             android:layout_below="@+id/rellayout1"
-            android:layout_above="@id/rellayout3">
+            android:layout_above="@id/rellayout3" >
 
-            <ScrollView
+            <ListView
+                android:id="@+id/plan"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content" />
 
-            <include layout="@layout/layout_calorie"/>
+            <ListView
+                android:id="@+id/split"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-
-            </ScrollView>
+            <ListView
+                android:id="@+id/uebung"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
 
         </RelativeLayout>
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_margin="16dp"
-            android:layout_above="@id/rellayout3"
-            app:srcCompat="@android:drawable/ic_dialog_email" />
 
         <RelativeLayout
             android:id="@+id/rellayout3"

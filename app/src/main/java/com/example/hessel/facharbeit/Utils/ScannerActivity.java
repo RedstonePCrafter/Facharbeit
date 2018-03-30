@@ -2,7 +2,9 @@ package com.example.hessel.facharbeit.Utils;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
@@ -18,15 +20,15 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 public class ScannerActivity extends AppCompatActivity {
     private ZXingScannerView scannerView;
     private Context mContext = this;
-    private String meal;
+    private SharedPreferences SP;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        meal = getIntent().getStringExtra("meal");
         scannerView = new ZXingScannerView(this);
         scannerView.setResultHandler(new ZXingScannerResultsHandler());
         setContentView(scannerView);
         scannerView.startCamera();
+        SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
     }
 
@@ -43,10 +45,9 @@ public class ScannerActivity extends AppCompatActivity {
         public void handleResult(Result result) {
             String resultCode = result.getText();
             scannerView.stopCamera();
-            Intent intent = new Intent(mContext, SearchFoodActivity.class);
-            intent.putExtra("barcode-meal",resultCode+" "+meal);;
+            SP.edit().putString("barcode", resultCode).commit();
             finish();
-            mContext.startActivity(intent);
+            mContext.startActivity(new Intent(mContext, SearchFoodActivity.class));
 
         }
     }

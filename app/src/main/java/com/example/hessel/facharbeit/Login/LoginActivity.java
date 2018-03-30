@@ -99,7 +99,8 @@ public class LoginActivity extends AppCompatActivity{
                 Log.d(TAG, String.valueOf(error.getMessage()));
                 if (!SP.getString("pref_email","").isEmpty() || !SP.getString("pref_password","").isEmpty()) {
                     finish();
-                    LoginActivity.this.startActivity(new Intent(LoginActivity.this, HomeActivity.class).putExtra("online", "false"));
+                    SP.edit().putBoolean("online", false).commit();
+                    LoginActivity.this.startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                 }
 
             }
@@ -127,7 +128,8 @@ public class LoginActivity extends AppCompatActivity{
                                 SP.edit().putString("pref_password",password).commit();
                             }
                             finish();
-                            LoginActivity.this.startActivity(new Intent(LoginActivity.this, HomeActivity.class).putExtra("online","true"));
+                            SP.edit().putBoolean("online", true).commit();
+                            LoginActivity.this.startActivity(new Intent(LoginActivity.this, HomeActivity.class));
 
                         } else {
                             Log.d(TAG,"alert-dialog");
@@ -142,7 +144,9 @@ public class LoginActivity extends AppCompatActivity{
                     } catch (JSONException e) {
                         e.printStackTrace();
                         Log.d(TAG,"error");
-                        //LoginActivity.this.startActivity(new Intent(LoginActivity.this, HomeActivity.class).putExtra("online","false"));
+                        //SP.edit().putBoolean("online", false).commit();
+                        //finish();
+                        //LoginActivity.this.startActivity(new Intent(LoginActivity.this, HomeActivity.class));
 
                     }
 

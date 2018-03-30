@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -24,21 +23,19 @@ import java.util.ArrayList;
  * Created by hessel on 21.01.2018.
  */
 
-public class FoodListAdapter extends ArrayAdapter<Food> {
+public class FoodCountListAdapter extends ArrayAdapter<FoodCount> {
     private static final String Tag = "FoodListAdapter";
     private Context mContext;
     int mResource;
+    private ArrayList<FoodCount> foodCountArrayList;
     private SharedPreferences SP;
-    private ArrayList<Food> foodArrayList;
-    private String meal;
 
-    public FoodListAdapter(Context context, int resource, ArrayList<Food> objects,String meal) {
+    public FoodCountListAdapter(Context context, int resource, ArrayList<FoodCount> objects) {
         super(context, resource, objects);
         this.mContext = context;
         this.mResource = resource;
-        this.foodArrayList = objects;
-        this.meal = meal;
-        this.SP = PreferenceManager.getDefaultSharedPreferences(mContext);
+        this.foodCountArrayList = objects;
+        this.SP = PreferenceManager.getDefaultSharedPreferences(mContext.getApplicationContext());
     }
 
     @NonNull
@@ -65,12 +62,10 @@ public class FoodListAdapter extends ArrayAdapter<Food> {
             @Override
             public void onClick(View view) {
                 Log.d(Tag,"You pressed "+name);
-                FoodCount foodCount = new FoodCount(getItem(position));
-                foodCount.setMeal(meal);
+                FoodCount foodCount = getItem(position);
                 Gson gson = new Gson();
                 String json = gson.toJson(foodCount);
                 SP.edit().putString("foodCount", json).commit();
-                Log.d(Tag,SP.getString("foodCount",""));
                 mContext.startActivity(new Intent(mContext,FoodActivity.class));
             }
         });

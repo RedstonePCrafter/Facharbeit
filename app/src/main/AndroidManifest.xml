@@ -30,7 +30,7 @@
         <activity android:name=".Search.SearchActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleInstance"/>
-        <activity android:name=".Maps.MapsActivity"
+        <activity android:name=".Plan.PlanActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleInstance"/>
         <activity android:name=".Settings.SettingsActivity"

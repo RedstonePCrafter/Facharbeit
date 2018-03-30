@@ -23,6 +23,7 @@ public class Synchronization {
         final String TAG ="Synchronization";
         String gewicht = SP.getString("pref_Gewicht","");
         String groesse = SP.getString("pref_groesse","");
+        String geschlecht = SP.getString("pref_sexe","");
         String email = SP.getString("pref_email","");
         String password = SP.getString("pref_password","");
 
@@ -60,8 +61,13 @@ public class Synchronization {
 
 
 
-        SynchronizationRequest synchronizationRequest = new SynchronizationRequest(email,password,gewicht,groesse,responseListener);
+
+
+        SynchronizationRequest synchronizationRequest = new SynchronizationRequest(email,password,gewicht,groesse,geschlecht,responseListener);
         RequestQueue queue = Volley.newRequestQueue(mContext);
         queue.add(synchronizationRequest);
     }
+
+
+
 }

@@ -31,10 +31,13 @@ public class ConnectHelper {
     private static final String Tag = "ConnectHelper";
 
     @SuppressLint("ResourceAsColor")
-    public static void checkforConnection(View view,String state) {
+    public static void checkforConnection(View view,Boolean state) {
         Log.d(Tag,"Cheking Connection ...");
 
-        if (state.equals("false")) {
+        if (state) {
+            addSnackbar(view, "You are online", "", Color.GREEN, Color.RED,1500,null);
+
+        } else {
             View.OnClickListener listener = new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -42,8 +45,6 @@ public class ConnectHelper {
                 }
             };
             addSnackbar(view, "You are offline", "RETRY", Color.YELLOW, Color.RED,4000,listener );
-        } else {
-            addSnackbar(view, "You are online", "", Color.GREEN, Color.RED,1500,null);
         }
 
     }
