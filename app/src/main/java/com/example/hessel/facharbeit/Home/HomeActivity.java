@@ -10,6 +10,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -25,7 +26,11 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.Volley;
 import com.example.hessel.facharbeit.Login.LoginActivity;
+import com.example.hessel.facharbeit.Login.LoginRequest;
 import com.example.hessel.facharbeit.Login.RegisterActivity;
 import com.example.hessel.facharbeit.PlanUtils.ListUtils;
 import com.example.hessel.facharbeit.PlanUtils.Set;
@@ -43,6 +48,9 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -108,7 +116,7 @@ public class HomeActivity extends AppCompatActivity {
 
         listView_breakfast = (ListView) findViewById(R.id.breakfast);
         breakfast_list = new ArrayList<>();
-        //breakfast_list.add(new FoodCount(new Food("",0,0,0,0,"")));
+        //breakfast_list.add(new FoodCount(new Food("",0,0,0,0,"","")));
 
         breakfast_adapter = new FoodCountListAdapter(mcontext,R.layout.layout_listview_food,breakfast_list);
         listView_breakfast.setAdapter(breakfast_adapter);
@@ -141,19 +149,26 @@ public class HomeActivity extends AppCompatActivity {
         ListUtils.setDynamicHeight(listView_snack);
 
 
+        getFood();
+
     }
 
     @Override
     protected void onPostResume() {
         super.onPostResume();
 
-        addtoMeal(loadFoodCount());
-        /*breakfast_list = loadFoodCountList("breakfast_list");
-        lunch_list = loadFoodCountList("lunch_list");
-        dinner_list = loadFoodCountList("dinner_list");
-        snack_list = loadFoodCountList("snack_list");*/
+        getFood();
+        //addtoMeal(loadFoodCount());
 
 
+
+
+    }
+
+    public void resetadd(ArrayList<FoodCount> foodlist_old,ArrayList<FoodCount> foodlist_new,ListView listview){
+        foodlist_old.clear();
+        foodlist_old.addAll(foodlist_new);
+        ListUtils.setDynamicHeight(listview);
 
     }
 
@@ -275,9 +290,8 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    public ArrayList<FoodCount> loadFoodCountList(String list){
+    public ArrayList<FoodCount> loadFoodCountList(String json){
         Gson gson = new Gson();
-        String json = SP.getString(list,"");
         Type type = new TypeToken<ArrayList<FoodCount>>() {}.getType();
         return gson.fromJson(json,type);
     }
@@ -310,5 +324,36 @@ public class HomeActivity extends AppCompatActivity {
 
             }
         }
+    }
+
+    public void getFood(){
+        Response.Listener<String> responseListener = new Response.Listener<String>() {
+            @Override
+
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonresponse = new JSONObject(response);
+                    String breakfast = jsonresponse.getString("Breakfast");
+                    Log.d(Tag,breakfast);
+                    String lunch = jsonresponse.getString("Lunch");
+                    String dinner = jsonresponse.getString("Dinner");
+                    String snack = jsonresponse.getString("Snack");
+                    resetadd(breakfast_list,loadFoodCountList(breakfast),listView_breakfast);
+                    resetadd(lunch_list,loadFoodCountList(lunch),listView_lunch);
+                    resetadd(dinner_list,loadFoodCountList(dinner),listView_dinner);
+                    resetadd(snack_list,loadFoodCountList(snack),listView_snack);
+
+
+                }catch(JSONException e) {
+                    e.printStackTrace();
+                    Log.d(Tag,"error");
+
+                }
+
+            }
+        };
+        GetFoodRequest getFoodRequest = new GetFoodRequest(SP.getString("pref_email",""),SP.getString("pref_password",""),"2018-03-02",responseListener);
+        RequestQueue queue = Volley.newRequestQueue(mcontext);
+        queue.add(getFoodRequest);
     }
 }
