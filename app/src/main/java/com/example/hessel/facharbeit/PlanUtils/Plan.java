@@ -6,6 +6,12 @@ import java.util.ArrayList;
  * Created by hessel on 23.01.2018.
  */
 
+
+
+
+
+
+
 public class Plan {
     private String name;
     private String dauer;

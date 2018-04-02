@@ -17,8 +17,8 @@ public class GetFoodRequest extends StringRequest {
     private static final String LOGIN_REQUEST_URL = URL+"/getFood.php";
     private Map<String, String> params;
 
-    public GetFoodRequest(String email, String password,String date, Response.Listener<String> listener) {
-        super(Method.POST,LOGIN_REQUEST_URL, listener,null);
+    public GetFoodRequest(String email, String password,String date, Response.Listener<String> listener,Response.ErrorListener errorListener) {
+        super(Method.POST,LOGIN_REQUEST_URL, listener,errorListener);
         params = new HashMap<>();
         params.put("email",email);
         params.put("password",password);

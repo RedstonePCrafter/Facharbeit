@@ -28,6 +28,8 @@ import org.json.JSONObject;
 
 import java.util.concurrent.TimeUnit;
 
+import static com.example.hessel.facharbeit.Utils.ConnectHelper.isNetworkConnected;
+
 /**
  * Created by hessel on 31.01.2018.
  */
@@ -93,18 +95,22 @@ public class LoginActivity extends AppCompatActivity{
 
 
     public void sendRequest(){
-        Response.ErrorListener errorListener = new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d(TAG, String.valueOf(error.getMessage()));
-                if (!SP.getString("pref_email","").isEmpty() || !SP.getString("pref_password","").isEmpty()) {
-                    finish();
-                    SP.edit().putBoolean("online", false).commit();
-                    LoginActivity.this.startActivity(new Intent(LoginActivity.this, HomeActivity.class));
-                }
 
-            }
-        };
+        if(isNetworkConnected(LoginActivity.this)) {
+
+
+            Response.ErrorListener errorListener = new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.d(TAG, String.valueOf(error.getMessage()));
+                    if (!SP.getString("pref_email", "").isEmpty() || !SP.getString("pref_password", "").isEmpty()) {
+                        finish();
+                        SP.edit().putBoolean("online", false).commit();
+                        LoginActivity.this.startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                    }
+
+                }
+            };
             Response.Listener<String> responseListener = new Response.Listener<String>() {
                 @Override
 
@@ -118,21 +124,21 @@ public class LoginActivity extends AppCompatActivity{
                         String json = jsonresponse.getString("plan");
                         Log.d(TAG, note);
                         if (success) {
-                            if (staylogged){
-                                SP.edit().putString("pref_planlist",json).apply();
+                            if (staylogged) {
+                                SP.edit().putString("pref_planlist", json).apply();
                                 String username = jsonresponse.getString("username");
                                 String reg_date = jsonresponse.getString("reg_date");
-                                SP.edit().putString("pref_reg_date",reg_date).commit();
-                                SP.edit().putString("pref_username",username).commit();
-                                SP.edit().putString("pref_email",email).commit();
-                                SP.edit().putString("pref_password",password).commit();
+                                SP.edit().putString("pref_reg_date", reg_date).commit();
+                                SP.edit().putString("pref_username", username).commit();
+                                SP.edit().putString("pref_email", email).commit();
+                                SP.edit().putString("pref_password", password).commit();
                             }
                             finish();
                             SP.edit().putBoolean("online", true).commit();
                             LoginActivity.this.startActivity(new Intent(LoginActivity.this, HomeActivity.class));
 
                         } else {
-                            Log.d(TAG,"alert-dialog");
+                            Log.d(TAG, "alert-dialog");
                             AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this, R.style.MyDialogTheme);
                             builder.setMessage("Login failed \n" + note)
                                     .setNegativeButton("Retry", null)
@@ -143,7 +149,7 @@ public class LoginActivity extends AppCompatActivity{
 
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        Log.d(TAG,"error");
+                        Log.d(TAG, "error");
                         //SP.edit().putBoolean("online", false).commit();
                         //finish();
                         //LoginActivity.this.startActivity(new Intent(LoginActivity.this, HomeActivity.class));
@@ -152,9 +158,17 @@ public class LoginActivity extends AppCompatActivity{
 
                 }
             };
-            LoginRequest loginRequest = new LoginRequest(email,password,responseListener,errorListener);
+            LoginRequest loginRequest = new LoginRequest(email, password, responseListener, errorListener);
             RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
             queue.add(loginRequest);
+        }else{
+            if (!SP.getString("pref_email", "").isEmpty() || !SP.getString("pref_password", "").isEmpty()) {
+                finish();
+                SP.edit().putBoolean("online", false).commit();
+                LoginActivity.this.startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+            }
+
+        }
 
 
 

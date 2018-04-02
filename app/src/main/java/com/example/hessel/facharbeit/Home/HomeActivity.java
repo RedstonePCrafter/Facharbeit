@@ -1,9 +1,12 @@
 package com.example.hessel.facharbeit.Home;
 
+import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
 import android.preference.PreferenceManager;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -19,15 +22,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.example.hessel.facharbeit.Login.LoginActivity;
 import com.example.hessel.facharbeit.Login.LoginRequest;
@@ -54,10 +62,12 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import static com.example.hessel.facharbeit.Utils.BottomSheet.homeFragementBottomSheet;
 import static com.example.hessel.facharbeit.Utils.ConnectHelper.checkforConnection;
+import static com.example.hessel.facharbeit.Utils.ConnectHelper.isNetworkConnected;
 import static com.github.mikephil.charting.utils.ColorTemplate.rgb;
 
 public class HomeActivity extends AppCompatActivity {
@@ -68,8 +78,10 @@ public class HomeActivity extends AppCompatActivity {
     private CoordinatorLayout coordinatorLayout;
     private SharedPreferences SP;
     private PieChart pieChart;
-    private float maxCalorie;
-    private float nowCalorie=0;
+    private Calendar calendar;
+    private TextView tvdate;
+    private String date;
+    private DatePickerDialog datePickerDialog;
     private FoodCountListAdapter breakfast_adapter,lunch_adapter,dinner_adapter,snack_adapter;
     ListView listView_breakfast,listView_lunch,listView_dinner,listView_snack;
     ArrayList<FoodCount> breakfast_list,lunch_list,dinner_list,snack_list;
@@ -77,6 +89,7 @@ public class HomeActivity extends AppCompatActivity {
             rgb("#2ecc71"), rgb("#f1c40f"), rgb("#e74c3c"), rgb("#3498db"),rgb("#333333")
     };
 
+    @SuppressLint({"NewApi", "ResourceType"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,7 +97,11 @@ public class HomeActivity extends AppCompatActivity {
         Log.d(Tag, "oncreate . starting");
         setupBottomNavigationView();
 
+
         SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -98,15 +115,14 @@ public class HomeActivity extends AppCompatActivity {
 
 
         pieChart = (PieChart) findViewById(R.id.piechart);
+        tvdate = (TextView) findViewById(R.id.date);
 
-        setUp();
         //Creating View of Application
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
 
         //Checking the Connnection State
-        checkforConnection(coordinatorLayout, SP.getBoolean("online",false));
-        Log.d(Tag, String.valueOf(SP.getBoolean("online",false)));
-        SP.edit().putBoolean("online", false).commit();
+        checkforConnection(coordinatorLayout, SP.getBoolean("online", false));
+        SP.edit().putBoolean("online", true).commit();
 
 
 
@@ -149,8 +165,41 @@ public class HomeActivity extends AppCompatActivity {
         ListUtils.setDynamicHeight(listView_snack);
 
 
+
+        calendar = Calendar.getInstance();
+        date = calendar.get(Calendar.YEAR)+"-"+getformatedDate(String.valueOf(calendar.get(Calendar.MONTH)+1))+"-"+getformatedDate(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
+        tvdate.setText(date);
+        Log.d(Tag,date);
+        datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                calendar.set(year, monthOfYear, dayOfMonth);
+                date = calendar.get(Calendar.YEAR)+"-"+getformatedDate(String.valueOf(calendar.get(Calendar.MONTH)+1))+"-"+getformatedDate(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
+                Log.d(Tag,date);
+                tvdate.setText(date);
+                getFood();
+
+
+            }
+
+        },calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
         getFood();
 
+    }
+
+
+
+    public String getformatedDate(String number){
+        if(String.valueOf(number).length()==1){
+            return "0"+number;
+        }
+        return number;
+
+    }
+
+    public void showDatePickerDialog(View view){
+        datePickerDialog.show();
     }
 
     @Override
@@ -159,9 +208,21 @@ public class HomeActivity extends AppCompatActivity {
 
         getFood();
         //addtoMeal(loadFoodCount());
+    }
 
+    public void onclick_nextDay(View view){
+        calendar.add(Calendar.DATE,1);
+        date = calendar.get(Calendar.YEAR)+"-"+getformatedDate(String.valueOf(calendar.get(Calendar.MONTH)+1))+"-"+getformatedDate(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
+        tvdate.setText(date);
+        getFood();
 
-
+    }
+    public void onclick_previousDay(View view){
+        calendar.add(Calendar.DATE,-1);
+        date = calendar.get(Calendar.YEAR)+"-"+getformatedDate(String.valueOf(calendar.get(Calendar.MONTH)+1))+"-"+getformatedDate(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
+        tvdate.setText(date);
+        Log.d(Tag,date);
+        getFood();
 
     }
 
@@ -235,7 +296,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
-    public void setUp(){
+    public void setChart(){
 
 
         pieChart.setUsePercentValues(false);
@@ -251,17 +312,18 @@ public class HomeActivity extends AppCompatActivity {
 
         pieChart.animateY(2000, Easing.EasingOption.EaseInOutCubic);
         pieChart.getLegend().setEnabled(false);
-        maxCalorie = 500;
         ArrayList<PieEntry> yValues=new ArrayList<>();
-        yValues.add(new PieEntry(50,"Frühstück"));
-        yValues.add(new PieEntry(50,"Mittagessen"));
-        yValues.add(new PieEntry(50,"Abendessen"));
-        yValues.add(new PieEntry(50,"Snack"));
-        nowCalorie = 0;
-        for (int i=0; i<yValues.size(); i++){
-            nowCalorie=+yValues.get(i).getValue();
-        }
-        yValues.add(new PieEntry(maxCalorie-nowCalorie,""));
+        int breakfastCalorie = getMealCalories(breakfast_list);
+        int lunchCalorie = getMealCalories(lunch_list);
+        int dinnerCalorie = getMealCalories(dinner_list);
+        int snackCalorie = getMealCalories(snack_list);
+        yValues.add(new PieEntry(breakfastCalorie,"Frühstück"));
+        yValues.add(new PieEntry(lunchCalorie,"Mittagessen"));
+        yValues.add(new PieEntry(dinnerCalorie,"Abendessen"));
+        yValues.add(new PieEntry(snackCalorie,"Snack"));
+        SP.edit().putString("pref_max_calorie","1000").commit();
+        int maxCalorie = Integer.parseInt(SP.getString("pref_max_calorie","0"));
+        yValues.add(new PieEntry(maxCalorie-breakfastCalorie-lunchCalorie-dinnerCalorie-snackCalorie,""));
 
 
         PieDataSet dataSet = new PieDataSet(yValues,"Tests");
@@ -277,7 +339,45 @@ public class HomeActivity extends AppCompatActivity {
         pieChart.setCenterTextColor(Color.WHITE);
         pieChart.setCenterTextSize(20);
         pieChart.setData(data);
+        pieChart.invalidate();
 
+    }
+
+    public void setup(){
+        ArrayList<PieEntry> yValues=new ArrayList<>();
+        int breakfastCalorie = getMealCalories(breakfast_list);
+        int lunchCalorie = getMealCalories(lunch_list);
+        int dinnerCalorie = getMealCalories(dinner_list);
+        int snackCalorie = getMealCalories(snack_list);
+        yValues.add(new PieEntry(breakfastCalorie,"Frühstück"));
+        yValues.add(new PieEntry(lunchCalorie,"Mittagessen"));
+        yValues.add(new PieEntry(dinnerCalorie,"Abendessen"));
+        yValues.add(new PieEntry(snackCalorie,"Snack"));
+        SP.edit().putString("pref_max_calorie","1000").commit();
+        int maxCalorie = Integer.parseInt(SP.getString("pref_max_calorie","0"));
+        yValues.add(new PieEntry(maxCalorie-breakfastCalorie-lunchCalorie-dinnerCalorie-snackCalorie,""));
+
+
+        PieDataSet dataSet = new PieDataSet(yValues,"Tests");
+        dataSet.setSliceSpace(0f);
+        dataSet.setSelectionShift(5f);
+        dataSet.setColors(Colors);
+
+        PieData data = new PieData((dataSet));
+        data.setValueTextColor(Color.YELLOW);
+        data.setValueTextSize(14);
+        pieChart.setData(data);
+        pieChart.invalidate();
+        pieChart.animateY(2000, Easing.EasingOption.EaseInOutCubic);
+
+    }
+
+    public int getMealCalories(ArrayList<FoodCount> foodCountArrayList){
+        int mealCalories= 0;
+        for(FoodCount foodCount : foodCountArrayList) {
+            mealCalories = (int) mealCalories+foodCount.getCalories();
+        }
+        return mealCalories;
     }
 
     public FoodCount loadFoodCount(){
@@ -327,33 +427,86 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void getFood(){
-        Response.Listener<String> responseListener = new Response.Listener<String>() {
-            @Override
 
-            public void onResponse(String response) {
-                try {
-                    JSONObject jsonresponse = new JSONObject(response);
-                    String breakfast = jsonresponse.getString("Breakfast");
-                    Log.d(Tag,breakfast);
-                    String lunch = jsonresponse.getString("Lunch");
-                    String dinner = jsonresponse.getString("Dinner");
-                    String snack = jsonresponse.getString("Snack");
-                    resetadd(breakfast_list,loadFoodCountList(breakfast),listView_breakfast);
-                    resetadd(lunch_list,loadFoodCountList(lunch),listView_lunch);
-                    resetadd(dinner_list,loadFoodCountList(dinner),listView_dinner);
-                    resetadd(snack_list,loadFoodCountList(snack),listView_snack);
+        if(isNetworkConnected(mcontext)) {
 
 
-                }catch(JSONException e) {
-                    e.printStackTrace();
-                    Log.d(Tag,"error");
+            Response.ErrorListener errorListener = new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                    try {
+                        JSONObject jsonresponse = new JSONObject(SP.getString("pref_food_" + date, "{\"Breakfast\":[],\"Lunch\":[],\"Dinner\":[],\"Snack\":[]}"));
+                        String breakfast = jsonresponse.getString("Breakfast");
+                        String lunch = jsonresponse.getString("Lunch");
+                        String dinner = jsonresponse.getString("Dinner");
+                        String snack = jsonresponse.getString("Snack");
+                        resetadd(breakfast_list, loadFoodCountList(breakfast), listView_breakfast);
+                        resetadd(lunch_list, loadFoodCountList(lunch), listView_lunch);
+                        resetadd(dinner_list, loadFoodCountList(dinner), listView_dinner);
+                        resetadd(snack_list, loadFoodCountList(snack), listView_snack);
+                        setChart();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
                 }
+            };
+            Response.Listener<String> responseListener = new Response.Listener<String>() {
+                @Override
 
+                public void onResponse(String response) {
+                    try {
+                        JSONObject jsonresponse = new JSONObject(response);
+                        Log.d(Tag, String.valueOf(jsonresponse));
+                        SP.edit().putString("pref_food_" + date, String.valueOf(jsonresponse)).commit();
+                        String breakfast = jsonresponse.getString("Breakfast");
+                        String lunch = jsonresponse.getString("Lunch");
+                        String dinner = jsonresponse.getString("Dinner");
+                        String snack = jsonresponse.getString("Snack");
+                        resetadd(breakfast_list, loadFoodCountList(breakfast), listView_breakfast);
+                        resetadd(lunch_list, loadFoodCountList(lunch), listView_lunch);
+                        resetadd(dinner_list, loadFoodCountList(dinner), listView_dinner);
+                        resetadd(snack_list, loadFoodCountList(snack), listView_snack);
+                        setChart();
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Log.d(Tag, "error");
+
+                    }
+
+                }
+            };
+            GetFoodRequest getFoodRequest = new GetFoodRequest(SP.getString("pref_email", ""), SP.getString("pref_password", ""), date, responseListener, errorListener);
+            getFoodRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    1000,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            RequestQueue queue = Volley.newRequestQueue(mcontext);
+            queue.add(getFoodRequest);
+
+        }else{
+
+            try {
+                JSONObject jsonresponse = new JSONObject(SP.getString("pref_food_" + date, "{\"Breakfast\":[],\"Lunch\":[],\"Dinner\":[],\"Snack\":[]}"));
+                String breakfast = jsonresponse.getString("Breakfast");
+                String lunch = jsonresponse.getString("Lunch");
+                String dinner = jsonresponse.getString("Dinner");
+                String snack = jsonresponse.getString("Snack");
+                resetadd(breakfast_list, loadFoodCountList(breakfast), listView_breakfast);
+                resetadd(lunch_list, loadFoodCountList(lunch), listView_lunch);
+                resetadd(dinner_list, loadFoodCountList(dinner), listView_dinner);
+                resetadd(snack_list, loadFoodCountList(snack), listView_snack);
+                setChart();
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        };
-        GetFoodRequest getFoodRequest = new GetFoodRequest(SP.getString("pref_email",""),SP.getString("pref_password",""),"2018-03-02",responseListener);
-        RequestQueue queue = Volley.newRequestQueue(mcontext);
-        queue.add(getFoodRequest);
+
+        }
     }
+
+
+
 }
