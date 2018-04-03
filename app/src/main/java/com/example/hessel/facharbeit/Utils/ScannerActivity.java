@@ -47,7 +47,6 @@ public class ScannerActivity extends AppCompatActivity {
             scannerView.stopCamera();
             SP.edit().putString("barcode", resultCode).commit();
             finish();
-            mContext.startActivity(new Intent(mContext, SearchFoodActivity.class));
 
         }
     }

@@ -64,6 +64,9 @@
             android:screenOrientation="portrait"
             android:launchMode="singleInstance"
             android:parentActivityName=".SearchFood.SearchFoodActivity"/>
+        <activity android:name=".SearchFood.CreateFoodActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".SearchFood.SearchFoodActivity"/>
 
         <meta-data
             android:name="preloaded_fonts"

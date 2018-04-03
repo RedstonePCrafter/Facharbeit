@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 import android.widget.SearchView;
 
@@ -107,19 +108,7 @@ public class SearchFoodActivity extends AppCompatActivity {
 
     }
 
-    public String getActionbarTitle(int icon){
-        switch(icon){
-            case R.drawable.ic_breakfast_icon:
-                return "Breakfast";
-            case R.drawable.ic_lunch_icon:
-                return "Lunch";
-            case R.drawable.ic_dinner_icon:
-                return "Dinner";
-            case R.drawable.ic_snack_icon:
-                return "Snack";
-        }
-        return "Title";
-    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -154,7 +143,7 @@ public class SearchFoodActivity extends AppCompatActivity {
         if (id == R.id.app_bar_barcode_scanner) {
             mContext.startActivity(new Intent(mContext, ScannerActivity.class));
         }else if(id == R.id.add_food){
-            Log.d(TAG,""+item.getTitle());
+            mContext.startActivity(new Intent(mContext, CreateFoodActivity.class));
         }else if(id == R.id.add_meal){
             Log.d(TAG,""+item.getTitle());
         }else if(id == R.id.add_recipe){
