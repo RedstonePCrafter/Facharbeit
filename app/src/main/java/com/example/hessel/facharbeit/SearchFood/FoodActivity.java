@@ -27,8 +27,11 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
@@ -89,6 +92,8 @@ public class FoodActivity extends AppCompatActivity {
 
 
 
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -102,10 +107,10 @@ public class FoodActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (String.valueOf(charSequence).equals("") || Integer.parseInt(String.valueOf(charSequence))==0) {
+                if (String.valueOf(charSequence).equals("") || Float.parseFloat(String.valueOf(charSequence))==0) {
                         foodCount.setCount(0);
                 }else {
-                    foodCount.setCount(Integer.parseInt(String.valueOf(charSequence)));
+                    foodCount.setCount(Float.parseFloat(String.valueOf(charSequence)));
 
                 }
 
@@ -123,15 +128,47 @@ public class FoodActivity extends AppCompatActivity {
 
             }
         });
+        count.setText(String.valueOf(foodCount.getCount()));
+
 
     }
 
     public void onclick_fab(View view){
-        Gson gson = new Gson();
-        String json = gson.toJson(foodCount);
-        SP.edit().putString("foodCount", json).commit();
-        finish();
-        mcontext.startActivity(new Intent(mcontext,HomeActivity.class));
+            Gson gson = new Gson();
+            //JSONObject jsonresponse = new JSONObject(SP.getString("pref_food_" + SP.getString("pref_date",""), "{\"Breakfast\":[],\"Lunch\":[],\"Dinner\":[],\"Snack\":[]}"));
+
+            String json = SP.getString("pref_food_" + foodCount.getMeal().toLowerCase()+"_" + SP.getString("pref_date",""), "[]");
+            Type type = new TypeToken<ArrayList<FoodCount>>() {}.getType();
+            ArrayList<FoodCount> foodCountArrayList = gson.fromJson(json,type);
+            Boolean contains = false;
+            int position = 0;
+            for(FoodCount foodCount_old : foodCountArrayList) {
+
+
+                if (foodCount_old.getName().equals(foodCount.getName())){
+                    contains = true;
+                    if (foodCount_old.getCount()!=foodCount.getCount()){
+                        if(foodCount.getCount()==0){
+                            Log.d(Tag, String.valueOf(position));
+                            foodCountArrayList.remove(position);
+                        }else{
+                            foodCount_old.setCount(foodCount.getCount());
+                        }
+
+
+
+                    }
+                }
+                position = position +1;
+            }
+            if(contains==false){
+                foodCountArrayList.add(foodCount);
+            }
+            SP.edit().putString("pref_food_" + foodCount.getMeal().toLowerCase()+"_" + SP.getString("pref_date",""), gson.toJson(foodCountArrayList)).commit();
+            Log.d(Tag,"new string"+SP.getString("pref_food_"+foodCount.getMeal().toLowerCase()+"_" + SP.getString("pref_date",""), "[]"));
+
+            finish();
+            mcontext.startActivity(new Intent(mcontext,HomeActivity.class));
     }
 
     public void loadFoodCount(){

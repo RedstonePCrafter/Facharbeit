@@ -47,13 +47,10 @@ public class SearchFoodActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        Intent intent= getIntent();
-        try {
-            if(!SP.getString("barcode","").equals("")) {
-                submit(SP.getString("barcode", ""), true);
-            }
-        }catch (Exception e){}
+        if(!SP.getString("barcode","").equals("")) {
+            submit(SP.getString("barcode", ""), true);
+            SP.edit().putString("barcode","").commit();
+        }
 
         Log.d(TAG,SP.getString("meal",""));
         getSupportActionBar().setTitle(SP.getString("meal",""));
@@ -64,6 +61,15 @@ public class SearchFoodActivity extends AppCompatActivity {
 
 
         //submit("705632085943",true);
+    }
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+
+        if (!SP.getString("barcode", "").equals("")) {
+            submit(SP.getString("barcode", ""), true);
+            SP.edit().putString("barcode", "").commit();
+        }
     }
 
     public void submit(String search,Boolean barcode){

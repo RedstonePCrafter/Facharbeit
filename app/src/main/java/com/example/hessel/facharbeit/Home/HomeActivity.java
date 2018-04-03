@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.ImageView;
@@ -170,6 +171,7 @@ public class HomeActivity extends AppCompatActivity {
 
         calendar = Calendar.getInstance();
         date = calendar.get(Calendar.YEAR)+"-"+getformatedDate(String.valueOf(calendar.get(Calendar.MONTH)+1))+"-"+getformatedDate(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
+        SP.edit().putString("pref_date",date).commit();
         tvdate.setText(date);
         Log.d(Tag,date);
         datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
@@ -177,6 +179,7 @@ public class HomeActivity extends AppCompatActivity {
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 calendar.set(year, monthOfYear, dayOfMonth);
                 date = calendar.get(Calendar.YEAR)+"-"+getformatedDate(String.valueOf(calendar.get(Calendar.MONTH)+1))+"-"+getformatedDate(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
+                SP.edit().putString("pref_date",date).commit();
                 Log.d(Tag,date);
                 tvdate.setText(date);
                 getFood();
@@ -215,6 +218,7 @@ public class HomeActivity extends AppCompatActivity {
     public void onclick_nextDay(View view){
         calendar.add(Calendar.DATE,1);
         date = calendar.get(Calendar.YEAR)+"-"+getformatedDate(String.valueOf(calendar.get(Calendar.MONTH)+1))+"-"+getformatedDate(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
+        SP.edit().putString("pref_date",date).commit();
         tvdate.setText(date);
         getFood();
 
@@ -222,16 +226,23 @@ public class HomeActivity extends AppCompatActivity {
     public void onclick_previousDay(View view){
         calendar.add(Calendar.DATE,-1);
         date = calendar.get(Calendar.YEAR)+"-"+getformatedDate(String.valueOf(calendar.get(Calendar.MONTH)+1))+"-"+getformatedDate(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
+        SP.edit().putString("pref_date",date).commit();
         tvdate.setText(date);
         Log.d(Tag,date);
         getFood();
 
     }
 
-    public void resetadd(ArrayList<FoodCount> foodlist_old,ArrayList<FoodCount> foodlist_new,ListView listview){
+    public void resetadd(ArrayList<FoodCount> foodlist_old, ArrayList<FoodCount> foodlist_new, ListView listview, FoodCountListAdapter adapter){
+        try{
+            Log.d(Tag,"Count:"+String.valueOf(foodlist_new.get(1).getCount()));
+        }catch (Exception e){}
         foodlist_old.clear();
         foodlist_old.addAll(foodlist_new);
         ListUtils.setDynamicHeight(listview);
+        adapter.notifyDataSetChanged();
+
+
 
     }
 
@@ -378,35 +389,6 @@ public class HomeActivity extends AppCompatActivity {
         return gson.fromJson(json,type);
     }
 
-    public void addtoMeal(FoodCount foodCount){
-        if (foodCount != null) {
-            Log.d(Tag,foodCount.getMeal());
-            switch (foodCount.getMeal()) {
-                case "Breakfast":
-                    breakfast_list.add(foodCount);
-                    breakfast_adapter.notifyDataSetChanged();
-                    ListUtils.setDynamicHeight(listView_breakfast);
-                    Log.d(Tag, "tst");
-                    break;
-                case "Lunch":
-                    lunch_list.add(foodCount);
-                    lunch_adapter.notifyDataSetChanged();
-                    ListUtils.setDynamicHeight(listView_lunch);
-                    break;
-                case "Dinner":
-                    dinner_list.add(foodCount);
-                    dinner_adapter.notifyDataSetChanged();
-                    ListUtils.setDynamicHeight(listView_dinner);
-                    break;
-                case "Snack":
-                    snack_list.add(foodCount);
-                    snack_adapter.notifyDataSetChanged();
-                    ListUtils.setDynamicHeight(listView_snack);
-                    break;
-
-            }
-        }
-    }
 
     public void getFood(){
 
@@ -417,20 +399,15 @@ public class HomeActivity extends AppCompatActivity {
                 @Override
                 public void onErrorResponse(VolleyError error) {
 
-                    try {
-                        JSONObject jsonresponse = new JSONObject(SP.getString("pref_food_" + date, "{\"Breakfast\":[],\"Lunch\":[],\"Dinner\":[],\"Snack\":[]}"));
-                        String breakfast = jsonresponse.getString("Breakfast");
-                        String lunch = jsonresponse.getString("Lunch");
-                        String dinner = jsonresponse.getString("Dinner");
-                        String snack = jsonresponse.getString("Snack");
-                        resetadd(breakfast_list, loadFoodCountList(breakfast), listView_breakfast);
-                        resetadd(lunch_list, loadFoodCountList(lunch), listView_lunch);
-                        resetadd(dinner_list, loadFoodCountList(dinner), listView_dinner);
-                        resetadd(snack_list, loadFoodCountList(snack), listView_snack);
-                        setChart();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    String breakfast = SP.getString("pref_food_breakfast_" + date, "[]");
+                    String lunch = SP.getString("pref_food_lunch_" + date, "[]");
+                    String dinner = SP.getString("pref_food_dinner_" + date, "[]");
+                    String snack = SP.getString("pref_food_snack_" + date, "[]");
+                    resetadd(breakfast_list, loadFoodCountList(breakfast), listView_breakfast,breakfast_adapter);
+                    resetadd(lunch_list, loadFoodCountList(lunch), listView_lunch,lunch_adapter);
+                    resetadd(dinner_list, loadFoodCountList(dinner), listView_dinner,dinner_adapter);
+                    resetadd(snack_list, loadFoodCountList(snack), listView_snack,snack_adapter);
+                    setChart();
 
                 }
             };
@@ -438,18 +415,24 @@ public class HomeActivity extends AppCompatActivity {
                 @Override
 
                 public void onResponse(String response) {
-                    try {;
+                    try {
                         JSONObject jsonresponse = new JSONObject(response);
                         Log.d(Tag, "jsonresponse:"+String.valueOf(jsonresponse));
-                        SP.edit().putString("pref_food_" + date, String.valueOf(jsonresponse)).commit();
                         String breakfast = jsonresponse.getString("Breakfast");
                         String lunch = jsonresponse.getString("Lunch");
                         String dinner = jsonresponse.getString("Dinner");
                         String snack = jsonresponse.getString("Snack");
-                        resetadd(breakfast_list, loadFoodCountList(breakfast), listView_breakfast);
-                        resetadd(lunch_list, loadFoodCountList(lunch), listView_lunch);
-                        resetadd(dinner_list, loadFoodCountList(dinner), listView_dinner);
-                        resetadd(snack_list, loadFoodCountList(snack), listView_snack);
+                        SP.edit().putString("pref_food_breakfast_" + date, breakfast).commit();
+                        SP.edit().putString("pref_food_lunch_" + date, lunch).commit();
+                        SP.edit().putString("pref_food_dinner_" + date, dinner).commit();
+                        SP.edit().putString("pref_food_snack_" + date, snack).commit();
+
+                        Log.d(Tag,"HomeActivity->newstring:----"+breakfast);
+
+                        resetadd(breakfast_list, loadFoodCountList(breakfast), listView_breakfast,breakfast_adapter);
+                        resetadd(lunch_list, loadFoodCountList(lunch), listView_lunch,lunch_adapter);
+                        resetadd(dinner_list, loadFoodCountList(dinner), listView_dinner,dinner_adapter);
+                        resetadd(snack_list, loadFoodCountList(snack), listView_snack,snack_adapter);
                         setChart();
 
 
@@ -461,7 +444,7 @@ public class HomeActivity extends AppCompatActivity {
 
                 }
             };
-            GetFoodRequest getFoodRequest = new GetFoodRequest(SP.getString("pref_email", ""), SP.getString("pref_password", ""), date,SP.getString("pref_food_" + date, "{\"Breakfast\":[],\"Lunch\":[],\"Dinner\":[],\"Snack\":[]}"), responseListener, errorListener);
+            GetFoodRequest getFoodRequest = new GetFoodRequest(SP.getString("pref_email", ""), SP.getString("pref_password", ""), date,SP.getString("pref_food_breakfast_" + date, "[]"),SP.getString("pref_food_lunch_" + date, "[]"),SP.getString("pref_food_dinner_" + date, "[]"),SP.getString("pref_food_snack_" + date, "[]"), responseListener, errorListener);
             getFoodRequest.setRetryPolicy(new DefaultRetryPolicy(
                     1000,
                     DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
@@ -470,21 +453,16 @@ public class HomeActivity extends AppCompatActivity {
             queue.add(getFoodRequest);
 
         }else{
+            String breakfast = SP.getString("pref_food_breakfast_" + date, "[]");
+            String lunch = SP.getString("pref_food_lunch_" + date, "[]");
+            String dinner = SP.getString("pref_food_dinner_" + date, "[]");
+            String snack = SP.getString("pref_food_snack_" + date, "[]");
+            resetadd(breakfast_list, loadFoodCountList(breakfast), listView_breakfast,breakfast_adapter);
+            resetadd(lunch_list, loadFoodCountList(lunch), listView_lunch,lunch_adapter);
+            resetadd(dinner_list, loadFoodCountList(dinner), listView_dinner,dinner_adapter);
+            resetadd(snack_list, loadFoodCountList(snack), listView_snack,snack_adapter);
+            setChart();
 
-            try {
-                JSONObject jsonresponse = new JSONObject(SP.getString("pref_food_" + date, "{\"Breakfast\":[],\"Lunch\":[],\"Dinner\":[],\"Snack\":[]}"));
-                String breakfast = jsonresponse.getString("Breakfast");
-                String lunch = jsonresponse.getString("Lunch");
-                String dinner = jsonresponse.getString("Dinner");
-                String snack = jsonresponse.getString("Snack");
-                resetadd(breakfast_list, loadFoodCountList(breakfast), listView_breakfast);
-                resetadd(lunch_list, loadFoodCountList(lunch), listView_lunch);
-                resetadd(dinner_list, loadFoodCountList(dinner), listView_dinner);
-                resetadd(snack_list, loadFoodCountList(snack), listView_snack);
-                setChart();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
 
         }
     }
