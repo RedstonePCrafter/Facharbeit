@@ -14,15 +14,16 @@ import static com.example.hessel.facharbeit.Login.LoginActivity.URL;
 
 public class GetFoodRequest extends StringRequest {
 
-    private static final String LOGIN_REQUEST_URL = URL+"/getFood.php";
+    private static final String LOGIN_REQUEST_URL = URL+"/saveFood.php";
     private Map<String, String> params;
 
-    public GetFoodRequest(String email, String password,String date, Response.Listener<String> listener,Response.ErrorListener errorListener) {
+    public GetFoodRequest(String email, String password,String date,String json, Response.Listener<String> listener,Response.ErrorListener errorListener) {
         super(Method.POST,LOGIN_REQUEST_URL, listener,errorListener);
         params = new HashMap<>();
         params.put("email",email);
         params.put("password",password);
         params.put("date",date);
+        params.put("json",json);
 
 
     }

@@ -69,6 +69,7 @@ import static com.example.hessel.facharbeit.Utils.BottomSheet.homeFragementBotto
 import static com.example.hessel.facharbeit.Utils.ConnectHelper.checkforConnection;
 import static com.example.hessel.facharbeit.Utils.ConnectHelper.isNetworkConnected;
 import static com.github.mikephil.charting.utils.ColorTemplate.rgb;
+import static java.lang.Math.abs;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -108,6 +109,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //SP.edit().putString("meal", "Breakfast").commit();
+                SP.edit().putString("pref_date",date).commit();
                 homeFragementBottomSheet(view.getContext(),R.layout.layout_bottom_sheet_grid);
 
             }
@@ -297,8 +299,6 @@ public class HomeActivity extends AppCompatActivity {
 
 
     public void setChart(){
-
-
         pieChart.setUsePercentValues(false);
         pieChart.getDescription().setEnabled(false);
 
@@ -321,9 +321,18 @@ public class HomeActivity extends AppCompatActivity {
         yValues.add(new PieEntry(lunchCalorie,"Mittagessen"));
         yValues.add(new PieEntry(dinnerCalorie,"Abendessen"));
         yValues.add(new PieEntry(snackCalorie,"Snack"));
-        SP.edit().putString("pref_max_calorie","1000").commit();
+
+        SP.edit().putString("pref_max_calorie","2700").commit();
+
         int maxCalorie = Integer.parseInt(SP.getString("pref_max_calorie","0"));
-        yValues.add(new PieEntry(maxCalorie-breakfastCalorie-lunchCalorie-dinnerCalorie-snackCalorie,""));
+        int leftCalorie = maxCalorie-breakfastCalorie-lunchCalorie-dinnerCalorie-snackCalorie;
+        if (leftCalorie<0){
+            pieChart.setCenterText(maxCalorie+" + "+abs(leftCalorie)+" kcal");
+        }else{
+            pieChart.setCenterText(maxCalorie+" kcal");
+            yValues.add(new PieEntry(maxCalorie-breakfastCalorie-lunchCalorie-dinnerCalorie-snackCalorie,""));
+        }
+
 
 
         PieDataSet dataSet = new PieDataSet(yValues,"Tests");
@@ -335,7 +344,7 @@ public class HomeActivity extends AppCompatActivity {
         data.setValueTextColor(Color.YELLOW);
         data.setValueTextSize(14);
 
-        pieChart.setCenterText(maxCalorie+" kcal");
+
         pieChart.setCenterTextColor(Color.WHITE);
         pieChart.setCenterTextSize(20);
         pieChart.setData(data);
@@ -343,34 +352,7 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    public void setup(){
-        ArrayList<PieEntry> yValues=new ArrayList<>();
-        int breakfastCalorie = getMealCalories(breakfast_list);
-        int lunchCalorie = getMealCalories(lunch_list);
-        int dinnerCalorie = getMealCalories(dinner_list);
-        int snackCalorie = getMealCalories(snack_list);
-        yValues.add(new PieEntry(breakfastCalorie,"Frühstück"));
-        yValues.add(new PieEntry(lunchCalorie,"Mittagessen"));
-        yValues.add(new PieEntry(dinnerCalorie,"Abendessen"));
-        yValues.add(new PieEntry(snackCalorie,"Snack"));
-        SP.edit().putString("pref_max_calorie","1000").commit();
-        int maxCalorie = Integer.parseInt(SP.getString("pref_max_calorie","0"));
-        yValues.add(new PieEntry(maxCalorie-breakfastCalorie-lunchCalorie-dinnerCalorie-snackCalorie,""));
 
-
-        PieDataSet dataSet = new PieDataSet(yValues,"Tests");
-        dataSet.setSliceSpace(0f);
-        dataSet.setSelectionShift(5f);
-        dataSet.setColors(Colors);
-
-        PieData data = new PieData((dataSet));
-        data.setValueTextColor(Color.YELLOW);
-        data.setValueTextSize(14);
-        pieChart.setData(data);
-        pieChart.invalidate();
-        pieChart.animateY(2000, Easing.EasingOption.EaseInOutCubic);
-
-    }
 
     public int getMealCalories(ArrayList<FoodCount> foodCountArrayList){
         int mealCalories= 0;
@@ -456,9 +438,9 @@ public class HomeActivity extends AppCompatActivity {
                 @Override
 
                 public void onResponse(String response) {
-                    try {
+                    try {;
                         JSONObject jsonresponse = new JSONObject(response);
-                        Log.d(Tag, String.valueOf(jsonresponse));
+                        Log.d(Tag, "jsonresponse:"+String.valueOf(jsonresponse));
                         SP.edit().putString("pref_food_" + date, String.valueOf(jsonresponse)).commit();
                         String breakfast = jsonresponse.getString("Breakfast");
                         String lunch = jsonresponse.getString("Lunch");
@@ -479,7 +461,7 @@ public class HomeActivity extends AppCompatActivity {
 
                 }
             };
-            GetFoodRequest getFoodRequest = new GetFoodRequest(SP.getString("pref_email", ""), SP.getString("pref_password", ""), date, responseListener, errorListener);
+            GetFoodRequest getFoodRequest = new GetFoodRequest(SP.getString("pref_email", ""), SP.getString("pref_password", ""), date,SP.getString("pref_food_" + date, "{\"Breakfast\":[],\"Lunch\":[],\"Dinner\":[],\"Snack\":[]}"), responseListener, errorListener);
             getFoodRequest.setRetryPolicy(new DefaultRetryPolicy(
                     1000,
                     DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
