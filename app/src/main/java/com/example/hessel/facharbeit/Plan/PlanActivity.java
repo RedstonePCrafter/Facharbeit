@@ -34,6 +34,8 @@ import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
+import static com.example.hessel.facharbeit.Utils.ConnectHelper.checkforConnection;
+
 /**
  * Created by hessel on 16.12.2017.
  */
@@ -50,6 +52,7 @@ public class PlanActivity extends AppCompatActivity {
     public static ArrayList<Uebung> uebungArrayList;
     public static ArrayList<Split> splitArrayList;
     public static ArrayList<Plan> planlist;
+    private PlanListAdapter plan_adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -84,6 +87,12 @@ public class PlanActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        loadObject(planlist,plan_adapter);
+    }
+
     public void start(){
         listView_split.setVisibility(View.GONE);
         listView_uebung.setVisibility(View.GONE);
@@ -99,7 +108,7 @@ public class PlanActivity extends AppCompatActivity {
         listView_split.setAdapter(split_adapter);
         Log.d(Tag,listView_split.getChildCount()+"");
 
-        final PlanListAdapter plan_adapter = new PlanListAdapter(mcontext,R.layout.layout_listview_plan,planlist,R.layout.layout_bottom_sheet);
+        plan_adapter = new PlanListAdapter(mcontext,R.layout.layout_listview_plan,planlist,R.layout.layout_bottom_sheet);
         listView_plan.setAdapter(plan_adapter);
 
 

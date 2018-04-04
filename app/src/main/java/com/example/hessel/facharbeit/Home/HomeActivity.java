@@ -125,7 +125,6 @@ public class HomeActivity extends AppCompatActivity {
 
         //Checking the Connnection State
         checkforConnection(coordinatorLayout, SP.getBoolean("online", false));
-        SP.edit().putBoolean("online", true).commit();
 
 
 
@@ -211,6 +210,7 @@ public class HomeActivity extends AppCompatActivity {
     protected void onPostResume() {
         super.onPostResume();
 
+        checkforConnection(coordinatorLayout, SP.getBoolean("online", false));
         getFood();
         //addtoMeal(loadFoodCount());
     }
