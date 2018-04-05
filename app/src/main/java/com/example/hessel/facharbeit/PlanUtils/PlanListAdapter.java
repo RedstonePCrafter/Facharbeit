@@ -63,6 +63,7 @@ public class PlanListAdapter extends ArrayAdapter<Plan> {
     @Override
     public View getView(final int position, View convertView, final ViewGroup parent) {
         SP = PreferenceManager.getDefaultSharedPreferences(mContext);
+
         final String name = getItem(position).getName();
         String dauer = getItem(position).getDauer();
         final String splits = String.valueOf(getItem(position).getSplitanzahl());
@@ -90,6 +91,7 @@ public class PlanListAdapter extends ArrayAdapter<Plan> {
 
                 switch (bottom_sheet_layout) {
                     case R.layout.layout_bottom_sheet:
+                        SP.edit().putString("pref_active_plan",""+getItem(position)).commit();
                         splitArrayList.clear();
                         splitArrayList.addAll(planArrayList.get(position).getSplitlist());
                         break;

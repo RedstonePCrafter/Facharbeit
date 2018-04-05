@@ -34,6 +34,7 @@ import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
+import static com.example.hessel.facharbeit.PlanUtils.ListUtils.setDynamicHeight;
 import static com.example.hessel.facharbeit.Utils.ConnectHelper.checkforConnection;
 
 /**
@@ -53,6 +54,8 @@ public class PlanActivity extends AppCompatActivity {
     public static ArrayList<Split> splitArrayList;
     public static ArrayList<Plan> planlist;
     private PlanListAdapter plan_adapter;
+    private SplitListAdapter split_adapter;
+    private UebungListAdapter uebung_adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -90,7 +93,7 @@ public class PlanActivity extends AppCompatActivity {
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        loadObject(planlist,plan_adapter);
+        loadObject();
     }
 
     public void start(){
@@ -101,10 +104,10 @@ public class PlanActivity extends AppCompatActivity {
         uebungArrayList = new ArrayList<>();
         splitArrayList = new ArrayList<>();
 
-        final UebungListAdapter uebung_adapter = new UebungListAdapter(mcontext,R.layout.layout_listview_uebung,uebungArrayList,R.layout.layout_bottom_sheet);
+        uebung_adapter = new UebungListAdapter(mcontext,R.layout.layout_listview_uebung,uebungArrayList,R.layout.layout_bottom_sheet);
         listView_uebung.setAdapter(uebung_adapter);
 
-        final SplitListAdapter split_adapter = new SplitListAdapter(mcontext,R.layout.layout_listview_split,splitArrayList,R.layout.layout_bottom_sheet);
+        split_adapter = new SplitListAdapter(mcontext,R.layout.layout_listview_split,splitArrayList,R.layout.layout_bottom_sheet);
         listView_split.setAdapter(split_adapter);
         Log.d(Tag,listView_split.getChildCount()+"");
 
@@ -112,36 +115,37 @@ public class PlanActivity extends AppCompatActivity {
         listView_plan.setAdapter(plan_adapter);
 
 
-        /*fab.setOnClickListener(new View.OnClickListener() {
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                saveObject(planlist);
+                if(listView_plan.getVisibility()==View.VISIBLE){
+                    mcontext.startActivity(new Intent(mcontext,CreatePlanActivity.class));
+                }else if(listView_split.getVisibility()==View.VISIBLE){
+                    mcontext.startActivity(new Intent(mcontext,CreateSplitActivity.class));
+                }else{
+                    mcontext.startActivity(new Intent(mcontext,CreatePlanActivity.class));
+
+                }
             }
-        });*/
-        loadObject(planlist,plan_adapter);
+        });
+        loadObject();
     }
 
 
-    public void saveObject(ArrayList<Plan> planlist){
-        SharedPreferences.Editor editor = SP.edit();
-
-        Gson gson = new Gson();
-        String json = gson.toJson(planlist);
-        Log.d(Tag,json);
-        editor.putString("pref_planlist",json).apply();
-    }
-    public void loadObject(ArrayList<Plan> planlist,PlanListAdapter plan_adapter){
+    public void loadObject(){
         Gson gson = new Gson();
         String json = SP.getString("pref_planlist",null);
+        Log.d(Tag,json);
         Type type = new TypeToken<ArrayList<Plan>>() {}.getType();
         ArrayList<Plan> planlist2 = gson.fromJson(json,type);
-        Log.d(Tag,""+json);
-        if (planlist2 == null){
-        }else{
-            planlist.addAll(planlist2);
-            plan_adapter.notifyDataSetChanged();
-
-        }
+        planlist.clear();
+        planlist.addAll(planlist2);
+        plan_adapter.notifyDataSetChanged();
+        split_adapter.notifyDataSetChanged();
+        uebung_adapter.notifyDataSetChanged();
+        try {
+            Log.d(Tag, splitArrayList.get(2).getName());
+        }catch (Exception e){}
     }
 
 

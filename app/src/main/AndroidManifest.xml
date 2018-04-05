@@ -67,7 +67,12 @@
         <activity android:name=".SearchFood.CreateFoodActivity"
             android:screenOrientation="portrait"
             android:parentActivityName=".SearchFood.SearchFoodActivity"/>
-
+        <activity android:name=".Plan.CreatePlanActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".Plan.PlanActivity"/>
+        <activity android:name=".Plan.CreateSplitActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".Plan.PlanActivity"/>
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
