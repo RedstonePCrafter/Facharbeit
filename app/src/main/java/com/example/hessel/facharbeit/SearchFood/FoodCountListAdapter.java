@@ -67,7 +67,7 @@ public class FoodCountListAdapter extends ArrayAdapter<FoodCount> {
                 FoodCount foodCount = getItem(position);
                 Gson gson = new Gson();
                 String json = gson.toJson(foodCount);
-                SP.edit().putString("foodCount", json).commit();
+                SP.edit().putString("foodCount", json).apply();
                 mContext.startActivity(new Intent(mContext,FoodActivity.class));
             }
         });

@@ -55,7 +55,7 @@ public class BottomSheet {
                 // Get the GridView selected/clicked item text
                 GridItem item = (GridItem) gridViewAdapter.getItem(position);
                 Log.d(Tag,item.getText());
-                SP.edit().putString("meal", item.getText()).commit();
+                SP.edit().putString("meal", item.getText()).apply();
                 Log.d(Tag,SP.getString("meal",""));
                 context.startActivity(new Intent(context, SearchFoodActivity.class));
                 behavior.setState(BottomSheetBehavior.STATE_HIDDEN);

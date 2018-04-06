@@ -118,7 +118,7 @@ public class ProfileActivity extends AppCompatActivity {
                     Log.d(Tag, String.valueOf(photoUri));
                     currentImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri);
                     selectedImage.setImageBitmap(currentImage);
-                    SP.edit().putString("pref_profile_picture", String.valueOf(photoUri)).commit();;
+                    SP.edit().putString("pref_profile_picture", String.valueOf(photoUri)).apply();;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

@@ -112,7 +112,7 @@ public class SetListAdapter extends ArrayAdapter<Set> {
                         getItem(position).setGewicht(String.valueOf(0.75+i1));
                         break;
                 }
-                
+
                 tvgewicht.setText(getItem(position).getGewicht());
             }
         });

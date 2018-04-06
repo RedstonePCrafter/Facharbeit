@@ -164,7 +164,7 @@ public class FoodActivity extends AppCompatActivity {
             if(contains==false){
                 foodCountArrayList.add(foodCount);
             }
-            SP.edit().putString("pref_food_" + foodCount.getMeal().toLowerCase()+"_" + SP.getString("pref_date",""), gson.toJson(foodCountArrayList)).commit();
+            SP.edit().putString("pref_food_" + foodCount.getMeal().toLowerCase()+"_" + SP.getString("pref_date",""), gson.toJson(foodCountArrayList)).apply();
             Log.d(Tag,"new string"+SP.getString("pref_food_"+foodCount.getMeal().toLowerCase()+"_" + SP.getString("pref_date",""), "[]"));
 
             finish();
@@ -176,7 +176,7 @@ public class FoodActivity extends AppCompatActivity {
         String json = SP.getString("foodCount","");
         Type type = new TypeToken<FoodCount>() {}.getType();
         foodCount = gson.fromJson(json,type);
-        SP.edit().putString("foodCount", "").commit();
+        SP.edit().putString("foodCount", "").apply();
 
     }
 

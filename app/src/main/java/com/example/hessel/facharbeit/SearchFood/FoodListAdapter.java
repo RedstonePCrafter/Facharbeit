@@ -69,7 +69,7 @@ public class FoodListAdapter extends ArrayAdapter<Food> {
                 foodCount.setMeal(meal);
                 Gson gson = new Gson();
                 String json = gson.toJson(foodCount);
-                SP.edit().putString("foodCount", json).commit();
+                SP.edit().putString("foodCount", json).apply();
                 Log.d(Tag,SP.getString("foodCount",""));
                 mContext.startActivity(new Intent(mContext,FoodActivity.class));
             }

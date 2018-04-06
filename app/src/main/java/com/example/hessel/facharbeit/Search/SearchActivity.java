@@ -243,5 +243,5 @@ public class SearchActivity extends AppCompatActivity{
     SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
     String sexe = SP.getString("pref_sexe","");
     Log.d(TAG,""+sexe);
-    SP.edit().putString("pref_cool","Hello").commit();
+    SP.edit().putString("pref_cool","Hello").apply();
     */

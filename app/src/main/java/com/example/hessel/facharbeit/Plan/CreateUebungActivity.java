@@ -111,7 +111,7 @@ public class CreateUebungActivity extends AppCompatActivity{
                     .add(new Uebung(value_name,value_muskelgruppe,setArrayList));
 
             json = gson.toJson(planlist2);
-            SP.edit().putString("pref_planlist",json).commit();
+            SP.edit().putString("pref_planlist",json).apply();
 
             finish();
             mcontext.startActivity(new Intent(mcontext, PlanActivity.class));

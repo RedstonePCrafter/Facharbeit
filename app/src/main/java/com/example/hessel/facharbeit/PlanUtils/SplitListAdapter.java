@@ -83,7 +83,7 @@ public class SplitListAdapter extends ArrayAdapter<Split> {
                 ListView listView_plan= (ListView) parent_view.findViewById(R.id.plan);
                 switch (bottom_sheet_layout) {
                     case R.layout.layout_bottom_sheet:
-                        SP.edit().putString("pref_active_split",""+position).commit();
+                        SP.edit().putString("pref_active_split",""+position).apply();
                         uebungArrayList.clear();
                         uebungArrayList.addAll(splitArrayList.get(position).getUebunglist());
                         break;
@@ -168,7 +168,7 @@ public class SplitListAdapter extends ArrayAdapter<Split> {
 
                                 json = gson.toJson(planlist2);
                                 Log.d(Tag,json);
-                                SP.edit().putString("pref_planlist",json).commit();
+                                SP.edit().putString("pref_planlist",json).apply();
 
                                 mContext.startActivity(new Intent(mContext,PlanActivity.class));
                             }

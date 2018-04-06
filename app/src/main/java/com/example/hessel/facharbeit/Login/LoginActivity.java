@@ -22,6 +22,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.hessel.facharbeit.Home.HomeActivity;
 import com.example.hessel.facharbeit.R;
 import com.example.hessel.facharbeit.Search.SearchActivity;
+import com.example.hessel.facharbeit.Settings.SettingsActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,6 +30,7 @@ import org.json.JSONObject;
 import java.util.concurrent.TimeUnit;
 
 import static com.example.hessel.facharbeit.Utils.ConnectHelper.isNetworkConnected;
+import static com.example.hessel.facharbeit.Utils.Synchronization.synchronize;
 
 /**
  * Created by hessel on 31.01.2018.
@@ -43,8 +45,8 @@ public class LoginActivity extends AppCompatActivity{
     private String email;
     private String password;
     private CheckBox checkBox;
-    //public static final String URL="http://x4mpp.ddns.net";
-    public static final String URL="http://192.168.178.22";
+    public static final String URL="http://x4mpp.ddns.net";
+    //public static final String URL="http://192.168.178.22";
 
 
     @Override
@@ -89,7 +91,6 @@ public class LoginActivity extends AppCompatActivity{
     }
     public void onclick_forgotPassword(View view){
         finish();
-        Log.d(TAG,"astart");
         LoginActivity.this.startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class));
     }
 
@@ -97,6 +98,7 @@ public class LoginActivity extends AppCompatActivity{
     public void sendRequest(){
 
         if(isNetworkConnected(LoginActivity.this)) {
+            synchronize(SP,LoginActivity.this);
 
 
             Response.ErrorListener errorListener = new Response.ErrorListener() {
@@ -105,7 +107,7 @@ public class LoginActivity extends AppCompatActivity{
                     Log.d(TAG, String.valueOf(error.getMessage()));
                     if (!SP.getString("pref_email", "").isEmpty() || !SP.getString("pref_password", "").isEmpty()) {
                         finish();
-                        SP.edit().putBoolean("online", false).commit();
+                        SP.edit().putBoolean("online", false).apply();
                         LoginActivity.this.startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                     }
 
@@ -125,16 +127,17 @@ public class LoginActivity extends AppCompatActivity{
                         Log.d(TAG, note);
                         if (success) {
                             if (staylogged) {
-                                SP.edit().putString("pref_planlist", json).apply();
+                                //When synchroniztion is correct implemented ->
+                                //SP.edit().putString("pref_planlist", json).apply();
                                 String username = jsonresponse.getString("username");
                                 String reg_date = jsonresponse.getString("reg_date");
-                                SP.edit().putString("pref_reg_date", reg_date).commit();
-                                SP.edit().putString("pref_username", username).commit();
-                                SP.edit().putString("pref_email", email).commit();
-                                SP.edit().putString("pref_password", password).commit();
+                                SP.edit().putString("pref_reg_date", reg_date).apply();
+                                SP.edit().putString("pref_username", username).apply();
+                                SP.edit().putString("pref_email", email).apply();
+                                SP.edit().putString("pref_password", password).apply();
                             }
                             finish();
-                            SP.edit().putBoolean("online", true).commit();
+                            SP.edit().putBoolean("online", true).apply();
                             LoginActivity.this.startActivity(new Intent(LoginActivity.this, HomeActivity.class));
 
                         } else {
@@ -150,7 +153,7 @@ public class LoginActivity extends AppCompatActivity{
                     } catch (JSONException e) {
                         e.printStackTrace();
                         Log.d(TAG, "error");
-                        //SP.edit().putBoolean("online", false).commit();
+                        //SP.edit().putBoolean("online", false).apply();
                         //finish();
                         //LoginActivity.this.startActivity(new Intent(LoginActivity.this, HomeActivity.class));
 
@@ -164,7 +167,7 @@ public class LoginActivity extends AppCompatActivity{
         }else{
             if (!SP.getString("pref_email", "").isEmpty() || !SP.getString("pref_password", "").isEmpty()) {
                 finish();
-                SP.edit().putBoolean("online", false).commit();
+                SP.edit().putBoolean("online", false).apply();
                 LoginActivity.this.startActivity(new Intent(LoginActivity.this, HomeActivity.class));
             }
 

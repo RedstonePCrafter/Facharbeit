@@ -50,7 +50,7 @@ public class SearchFoodActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if(!SP.getString("barcode","").equals("")) {
             submit(SP.getString("barcode", ""), true);
-            SP.edit().putString("barcode","").commit();
+            SP.edit().putString("barcode","").apply();
         }
 
         Log.d(TAG,SP.getString("meal",""));
@@ -69,7 +69,7 @@ public class SearchFoodActivity extends AppCompatActivity {
 
         if (!SP.getString("barcode", "").equals("")) {
             submit(SP.getString("barcode", ""), true);
-            SP.edit().putString("barcode", "").commit();
+            SP.edit().putString("barcode", "").apply();
         }
     }
 

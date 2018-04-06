@@ -50,7 +50,7 @@ public class CreatePlanActivity extends AppCompatActivity{
         setContentView(R.layout.activity_createplan);
         SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
-        //SP.edit().putString("pref_planlist","").commit();
+        //SP.edit().putString("pref_planlist","").apply();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -93,7 +93,7 @@ public class CreatePlanActivity extends AppCompatActivity{
             planlist2.add(new Plan(value_name,value_dauer,splitArrayList));
 
             json = gson.toJson(planlist2);
-            SP.edit().putString("pref_planlist",json).commit();
+            SP.edit().putString("pref_planlist",json).apply();
 
             finish();
             mcontext.startActivity(new Intent(mcontext, PlanActivity.class));

@@ -109,7 +109,7 @@ public class CreateFoodActivity extends AppCompatActivity{
 
         if (!SP.getString("barcode", "").equals("")) {
             barcode.setText("Barcode: "+SP.getString("barcode", ""));
-            SP.edit().putString("barcode", "").commit();
+            SP.edit().putString("barcode", "").apply();
         }
     }
 

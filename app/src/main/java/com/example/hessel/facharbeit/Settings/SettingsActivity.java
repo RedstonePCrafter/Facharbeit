@@ -58,7 +58,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         SettingsFragment settingsFragment = new SettingsFragment();
         fragmentTransaction.add(R.id.rellayout2, settingsFragment,"SETTINGS_FRAGMENT");
-        fragmentTransaction.commit();*/
+        fragmentTransaction.apply();*/
         getFragmentManager().beginTransaction()
                 .replace(R.id.rellayout2, new SettingsFragment()).commit();
     }
@@ -75,7 +75,7 @@ public class SettingsActivity extends AppCompatActivity {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     Log.d(Tag, "logout");
-                    SP.edit().clear().commit();
+                    SP.edit().clear().apply();
                     getActivity().finish();
                     startActivity(new Intent(getActivity(), LoginActivity.class));
                     return true;

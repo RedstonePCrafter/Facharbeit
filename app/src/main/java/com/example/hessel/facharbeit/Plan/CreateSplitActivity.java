@@ -68,10 +68,10 @@ public class CreateSplitActivity extends AppCompatActivity{
             Type type = new TypeToken<ArrayList<Plan>>() {}.getType();
             ArrayList<Plan> planlist2 = gson.fromJson(json,type);
 
-            planlist2.get(Integer.parseInt("0")).getSplitlist().add(new Split(value_name,uebungArrayList));
+            planlist2.get(Integer.parseInt(SP.getString("pref_active_plan","0"))).getSplitlist().add(new Split(value_name,uebungArrayList));
 
             json = gson.toJson(planlist2);
-            SP.edit().putString("pref_planlist",json).commit();
+            SP.edit().putString("pref_planlist",json).apply();
 
             finish();
             mcontext.startActivity(new Intent(mcontext, PlanActivity.class));

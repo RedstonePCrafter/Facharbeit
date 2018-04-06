@@ -109,8 +109,8 @@ public class HomeActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //SP.edit().putString("meal", "Breakfast").commit();
-                SP.edit().putString("pref_date",date).commit();
+                //SP.edit().putString("meal", "Breakfast").apply();
+                SP.edit().putString("pref_date",date).apply();
                 homeFragementBottomSheet(view.getContext(),R.layout.layout_bottom_sheet_grid);
 
             }
@@ -170,7 +170,7 @@ public class HomeActivity extends AppCompatActivity {
 
         calendar = Calendar.getInstance();
         date = calendar.get(Calendar.YEAR)+"-"+getformatedDate(String.valueOf(calendar.get(Calendar.MONTH)+1))+"-"+getformatedDate(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
-        SP.edit().putString("pref_date",date).commit();
+        SP.edit().putString("pref_date",date).apply();
         tvdate.setText(date);
         Log.d(Tag,date);
         datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
@@ -178,7 +178,7 @@ public class HomeActivity extends AppCompatActivity {
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 calendar.set(year, monthOfYear, dayOfMonth);
                 date = calendar.get(Calendar.YEAR)+"-"+getformatedDate(String.valueOf(calendar.get(Calendar.MONTH)+1))+"-"+getformatedDate(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
-                SP.edit().putString("pref_date",date).commit();
+                SP.edit().putString("pref_date",date).apply();
                 Log.d(Tag,date);
                 tvdate.setText(date);
                 getFood();
@@ -210,6 +210,7 @@ public class HomeActivity extends AppCompatActivity {
     protected void onPostResume() {
         super.onPostResume();
 
+
         checkforConnection(coordinatorLayout, SP.getBoolean("online", false));
         getFood();
         //addtoMeal(loadFoodCount());
@@ -218,7 +219,7 @@ public class HomeActivity extends AppCompatActivity {
     public void onclick_nextDay(View view){
         calendar.add(Calendar.DATE,1);
         date = calendar.get(Calendar.YEAR)+"-"+getformatedDate(String.valueOf(calendar.get(Calendar.MONTH)+1))+"-"+getformatedDate(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
-        SP.edit().putString("pref_date",date).commit();
+        SP.edit().putString("pref_date",date).apply();
         tvdate.setText(date);
         getFood();
 
@@ -226,7 +227,7 @@ public class HomeActivity extends AppCompatActivity {
     public void onclick_previousDay(View view){
         calendar.add(Calendar.DATE,-1);
         date = calendar.get(Calendar.YEAR)+"-"+getformatedDate(String.valueOf(calendar.get(Calendar.MONTH)+1))+"-"+getformatedDate(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
-        SP.edit().putString("pref_date",date).commit();
+        SP.edit().putString("pref_date",date).apply();
         tvdate.setText(date);
         Log.d(Tag,date);
         getFood();
@@ -234,9 +235,6 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void resetadd(ArrayList<FoodCount> foodlist_old, ArrayList<FoodCount> foodlist_new, ListView listview, FoodCountListAdapter adapter){
-        try{
-            Log.d(Tag,"Count:"+String.valueOf(foodlist_new.get(1).getCount()));
-        }catch (Exception e){}
         foodlist_old.clear();
         foodlist_old.addAll(foodlist_new);
         ListUtils.setDynamicHeight(listview);
@@ -333,7 +331,7 @@ public class HomeActivity extends AppCompatActivity {
         yValues.add(new PieEntry(dinnerCalorie,"Abendessen"));
         yValues.add(new PieEntry(snackCalorie,"Snack"));
 
-        SP.edit().putString("pref_max_calorie","2700").commit();
+        SP.edit().putString("pref_max_calorie","2700").apply();
 
         int maxCalorie = Integer.parseInt(SP.getString("pref_max_calorie","0"));
         int leftCalorie = maxCalorie-breakfastCalorie-lunchCalorie-dinnerCalorie-snackCalorie;
@@ -377,7 +375,7 @@ public class HomeActivity extends AppCompatActivity {
         Gson gson = new Gson();
         String json = SP.getString("foodCount","");
         Type type = new TypeToken<FoodCount>() {}.getType();
-        SP.edit().putString("foodCount","").commit();
+        SP.edit().putString("foodCount","").apply();
         Log.d(Tag,json);
         return gson.fromJson(json,type);
 
@@ -422,10 +420,10 @@ public class HomeActivity extends AppCompatActivity {
                         String lunch = jsonresponse.getString("Lunch");
                         String dinner = jsonresponse.getString("Dinner");
                         String snack = jsonresponse.getString("Snack");
-                        SP.edit().putString("pref_food_breakfast_" + date, breakfast).commit();
-                        SP.edit().putString("pref_food_lunch_" + date, lunch).commit();
-                        SP.edit().putString("pref_food_dinner_" + date, dinner).commit();
-                        SP.edit().putString("pref_food_snack_" + date, snack).commit();
+                        SP.edit().putString("pref_food_breakfast_" + date, breakfast).apply();
+                        SP.edit().putString("pref_food_lunch_" + date, lunch).apply();
+                        SP.edit().putString("pref_food_dinner_" + date, dinner).apply();
+                        SP.edit().putString("pref_food_snack_" + date, snack).apply();
 
                         Log.d(Tag,"HomeActivity->newstring:----"+breakfast);
 

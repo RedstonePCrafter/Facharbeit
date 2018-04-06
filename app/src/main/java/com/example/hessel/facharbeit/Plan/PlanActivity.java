@@ -64,6 +64,7 @@ public class PlanActivity extends AppCompatActivity {
         Log.d(Tag, "oncreate . starting");
         setupBottomNavigationView();
         SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        Log.d(Tag,SP.getString("pref_planlist",null));
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
 
@@ -103,6 +104,7 @@ public class PlanActivity extends AppCompatActivity {
         planlist= new ArrayList<>();
         uebungArrayList = new ArrayList<>();
         splitArrayList = new ArrayList<>();
+
 
         uebung_adapter = new UebungListAdapter(mcontext,R.layout.layout_listview_uebung,uebungArrayList,R.layout.layout_bottom_sheet);
         listView_uebung.setAdapter(uebung_adapter);

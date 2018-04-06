@@ -91,7 +91,7 @@ public class PlanListAdapter extends ArrayAdapter<Plan> {
 
                 switch (bottom_sheet_layout) {
                     case R.layout.layout_bottom_sheet:
-                        SP.edit().putString("pref_active_plan",""+position).commit();
+                        SP.edit().putString("pref_active_plan",""+position).apply();
                         splitArrayList.clear();
                         splitArrayList.addAll(planArrayList.get(position).getSplitlist());
                         break;
@@ -177,7 +177,7 @@ public class PlanListAdapter extends ArrayAdapter<Plan> {
 
                                 json = gson.toJson(planlist2);
                                 Log.d(Tag,json);
-                                SP.edit().putString("pref_planlist",json).commit();
+                                SP.edit().putString("pref_planlist",json).apply();
 
                                 mContext.startActivity(new Intent(mContext,PlanActivity.class));
                             }

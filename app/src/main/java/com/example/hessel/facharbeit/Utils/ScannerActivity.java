@@ -45,7 +45,7 @@ public class ScannerActivity extends AppCompatActivity {
         public void handleResult(Result result) {
             String resultCode = result.getText();
             scannerView.stopCamera();
-            SP.edit().putString("barcode", resultCode).commit();
+            SP.edit().putString("barcode", resultCode).apply();
             finish();
 
         }

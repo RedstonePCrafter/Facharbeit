@@ -26,11 +26,12 @@ public class Synchronization {
 
     public static void synchronize(SharedPreferences SP, final Context mContext) {
         final String TAG ="Synchronization";
-        String gewicht = SP.getString("pref_Gewicht","");
-        String groesse = SP.getString("pref_groesse","");
+        String gewicht = SP.getString("pref_Gewicht","0");
+        String groesse = SP.getString("pref_groesse","0");
         String geschlecht = SP.getString("pref_sexe","");
         String email = SP.getString("pref_email","");
         String password = SP.getString("pref_password","");
+        String json = SP.getString("pref_planlist","[]");
 
         if(isNetworkConnected(mContext)) {
 
@@ -62,7 +63,7 @@ public class Synchronization {
             };
 
 
-            SynchronizationRequest synchronizationRequest = new SynchronizationRequest(email, password, gewicht, groesse, geschlecht, responseListener);
+            SynchronizationRequest synchronizationRequest = new SynchronizationRequest(email, password, gewicht, groesse, geschlecht,json, responseListener);
             RequestQueue queue = Volley.newRequestQueue(mContext);
             queue.add(synchronizationRequest);
         }

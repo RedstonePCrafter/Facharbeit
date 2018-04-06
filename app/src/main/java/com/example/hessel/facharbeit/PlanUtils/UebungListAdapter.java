@@ -140,7 +140,7 @@ public class UebungListAdapter extends ArrayAdapter<Uebung> {
 
                                 json = gson.toJson(planlist2);
                                 Log.d(Tag,json);
-                                SP.edit().putString("pref_planlist",json).commit();
+                                SP.edit().putString("pref_planlist",json).apply();
 
                                 mContext.startActivity(new Intent(mContext,PlanActivity.class));
                             }
