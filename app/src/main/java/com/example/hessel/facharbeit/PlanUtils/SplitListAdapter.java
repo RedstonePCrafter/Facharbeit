@@ -83,7 +83,7 @@ public class SplitListAdapter extends ArrayAdapter<Split> {
                 ListView listView_plan= (ListView) parent_view.findViewById(R.id.plan);
                 switch (bottom_sheet_layout) {
                     case R.layout.layout_bottom_sheet:
-                        SP.edit().putString("pref_active_split",""+getItem(position)).commit();
+                        SP.edit().putString("pref_active_split",""+position).commit();
                         uebungArrayList.clear();
                         uebungArrayList.addAll(splitArrayList.get(position).getUebunglist());
                         break;

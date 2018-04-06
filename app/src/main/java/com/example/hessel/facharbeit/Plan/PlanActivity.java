@@ -123,7 +123,7 @@ public class PlanActivity extends AppCompatActivity {
                 }else if(listView_split.getVisibility()==View.VISIBLE){
                     mcontext.startActivity(new Intent(mcontext,CreateSplitActivity.class));
                 }else{
-                    mcontext.startActivity(new Intent(mcontext,CreatePlanActivity.class));
+                    mcontext.startActivity(new Intent(mcontext,CreateUebungActivity.class));
 
                 }
             }
@@ -140,12 +140,17 @@ public class PlanActivity extends AppCompatActivity {
         ArrayList<Plan> planlist2 = gson.fromJson(json,type);
         planlist.clear();
         planlist.addAll(planlist2);
+
+        try {
+            splitArrayList.clear();
+            splitArrayList.addAll(planlist.get(Integer.parseInt(SP.getString("pref_active_plan", "0"))).getSplitlist());
+            uebungArrayList.clear();
+            uebungArrayList.addAll(splitArrayList.get(Integer.parseInt(SP.getString("pref_active_split", "0"))).getUebunglist());
+        }catch (Exception e){Log.d(Tag,"Error:"+e);}
+
         plan_adapter.notifyDataSetChanged();
         split_adapter.notifyDataSetChanged();
         uebung_adapter.notifyDataSetChanged();
-        try {
-            Log.d(Tag, splitArrayList.get(2).getName());
-        }catch (Exception e){}
     }
 
 

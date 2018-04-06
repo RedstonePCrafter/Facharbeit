@@ -42,5 +42,36 @@
             android:textColor="@android:color/white" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/picker"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+
+        <NumberPicker
+            android:id="@+id/numberPicker0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:descendantFocusability="blocksDescendants"
+            android:isScrollContainer="false"
+            android:solidColor="@android:color/transparent" />
+
+        <NumberPicker
+            android:id="@+id/numberPicker1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:descendantFocusability="blocksDescendants"
+            android:isScrollContainer="false" />
+
+        <NumberPicker
+            android:id="@+id/numberPicker2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:descendantFocusability="blocksDescendants"
+            android:isScrollContainer="false" />
+    </LinearLayout>
+
 
 </LinearLayout>

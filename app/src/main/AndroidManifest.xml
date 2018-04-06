@@ -73,6 +73,9 @@
         <activity android:name=".Plan.CreateSplitActivity"
             android:screenOrientation="portrait"
             android:parentActivityName=".Plan.PlanActivity"/>
+        <activity android:name=".Plan.CreateUebungActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".Plan.PlanActivity"/>
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

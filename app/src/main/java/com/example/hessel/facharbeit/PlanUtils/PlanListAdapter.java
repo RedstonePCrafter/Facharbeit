@@ -91,7 +91,7 @@ public class PlanListAdapter extends ArrayAdapter<Plan> {
 
                 switch (bottom_sheet_layout) {
                     case R.layout.layout_bottom_sheet:
-                        SP.edit().putString("pref_active_plan",""+getItem(position)).commit();
+                        SP.edit().putString("pref_active_plan",""+position).commit();
                         splitArrayList.clear();
                         splitArrayList.addAll(planArrayList.get(position).getSplitlist());
                         break;
