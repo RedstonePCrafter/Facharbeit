@@ -102,7 +102,7 @@ public class CreateUebungActivity extends AppCompatActivity{
             String value_muskelgruppe = String.valueOf(muskelgruppe.getText());
             Gson gson = new Gson();
 
-            String json = SP.getString("pref_planlist",null);
+            String json = SP.getString("pref_planlist","[]");
             Type type = new TypeToken<ArrayList<Plan>>() {}.getType();
             ArrayList<Plan> planlist2 = gson.fromJson(json,type);
 

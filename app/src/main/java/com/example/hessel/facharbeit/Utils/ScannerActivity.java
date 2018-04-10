@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.hessel.facharbeit.SearchFood.SearchFoodActivity;
@@ -47,6 +48,7 @@ public class ScannerActivity extends AppCompatActivity {
             scannerView.stopCamera();
             SP.edit().putString("barcode", resultCode).apply();
             finish();
+            mContext.startActivity(new Intent(mContext,SearchFoodActivity.class));
 
         }
     }

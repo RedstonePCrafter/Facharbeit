@@ -67,10 +67,12 @@ import java.util.Calendar;
 import java.util.List;
 
 import static com.example.hessel.facharbeit.Utils.BottomSheet.homeFragementBottomSheet;
+import static com.example.hessel.facharbeit.Utils.CalorieUtils.calculateCalorieIntake;
 import static com.example.hessel.facharbeit.Utils.ConnectHelper.checkforConnection;
 import static com.example.hessel.facharbeit.Utils.ConnectHelper.isNetworkConnected;
 import static com.github.mikephil.charting.utils.ColorTemplate.rgb;
 import static java.lang.Math.abs;
+import static java.lang.Math.max;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -331,9 +333,11 @@ public class HomeActivity extends AppCompatActivity {
         yValues.add(new PieEntry(dinnerCalorie,"Abendessen"));
         yValues.add(new PieEntry(snackCalorie,"Snack"));
 
-        SP.edit().putString("pref_max_calorie","2700").apply();
 
         int maxCalorie = Integer.parseInt(SP.getString("pref_max_calorie","0"));
+        if (maxCalorie==0){
+            maxCalorie = calculateCalorieIntake(mcontext);
+        }
         int leftCalorie = maxCalorie-breakfastCalorie-lunchCalorie-dinnerCalorie-snackCalorie;
         if (leftCalorie<0){
             pieChart.setCenterText(maxCalorie+" + "+abs(leftCalorie)+" kcal");

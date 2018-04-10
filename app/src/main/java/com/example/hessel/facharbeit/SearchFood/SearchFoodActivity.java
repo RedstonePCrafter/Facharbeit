@@ -73,7 +73,13 @@ public class SearchFoodActivity extends AppCompatActivity {
         }
     }
 
-    public void submit(String search,Boolean barcode){
+    @Override
+    protected void onPause() {
+        super.onPause();
+        finish();
+    }
+
+    public void submit(String search, Boolean barcode){
 
         final Response.Listener<String> responseListener = new Response.Listener<String>() {
             @Override
@@ -143,11 +149,14 @@ public class SearchFoodActivity extends AppCompatActivity {
         if (id == R.id.app_bar_barcode_scanner) {
             mContext.startActivity(new Intent(mContext, ScannerActivity.class));
         }else if(id == R.id.add_food){
+            finish();
             mContext.startActivity(new Intent(mContext, CreateFoodActivity.class));
         }else if(id == R.id.add_meal){
             Log.d(TAG,""+item.getTitle());
         }else if(id == R.id.add_recipe){
             Log.d(TAG,""+item.getTitle());
+        }else if (id ==android.R.id.home){
+            finish();
         }
 
         return super.onOptionsItemSelected(item);

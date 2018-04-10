@@ -5,21 +5,56 @@
 
         <EditTextPreference
             android:inputType="numberDecimal"
-            android:key="pref_Gewicht"
+            android:key="pref_weight"
             android:singleLine="true"
-            android:summary="Wie viel wiegst du?"
-            android:title="Gewicht" />
+            android:summary=""
+            android:title="Weight" />
         <EditTextPreference
             android:inputType="numberDecimal"
-            android:key="pref_groesse"
+            android:key="pref_height"
             android:singleLine="true"
-            android:title="Größe"
-            android:summary="Wie groß bist du?"/>
+            android:title="Height"
+            android:summary=""/>
+        <EditTextPreference
+            android:inputType="numberDecimal"
+            android:key="pref_age"
+            android:singleLine="true"
+            android:summary=""
+            android:title="Age" />
+        <EditTextPreference
+            android:inputType="numberDecimal"
+            android:key="pref_fat"
+            android:singleLine="true"
+            android:title="Fat percentage"
+            android:summary=""/>
+        <EditTextPreference
+            android:inputType="numberDecimal"
+            android:key="pref_muscle"
+            android:singleLine="true"
+            android:title="Muscle percentage"
+            android:summary=""/>
+
         <ListPreference
             android:key="pref_sexe"
-            android:title="Geschlecht"
+            android:title="Sexe"
             android:entries="@array/Sexe_entries"
             android:entryValues="@array/Sexe_entries" />
+
+        <EditTextPreference
+            android:inputType="numberDecimal"
+            android:key="pref_max_calorie"
+            android:singleLine="true"
+            android:title="Calorieintake"
+            android:summary="Set your Caloriemaximum yourself"/>
+
+        <ListPreference
+            android:key="pref_activity_level"
+            android:title="Activity Level"
+            android:entries="@array/activty_level_entries"
+            android:entryValues="@array/activty_level_values" />
+
+
+
 
 
     </PreferenceCategory>
@@ -40,5 +75,80 @@
     </PreferenceCategory>
     <Preference android:title="LOGOUT"
         android:key="pref_logout" />
+
+
+    <!--
+
+        <PreferenceCategory
+            android:title="string/inline_preferences">
+
+            <CheckBoxPreference
+                android:key="checkbox_preference"
+                android:title="string/title_checkbox_preference"
+                android:summary="string/summary_checkbox_preference" />
+
+        </PreferenceCategory>
+
+        <PreferenceCategory
+            android:title="string/dialog_based_preferences">
+
+            <EditTextPreference
+                android:key="edittext_preference"
+                android:title="string/title_edittext_preference"
+                android:summary="string/summary_edittext_preference"
+                android:dialogTitle="string/dialog_title_edittext_preference" />
+
+            <ListPreference
+                android:key="list_preference"
+                android:title="string/title_list_preference"
+                android:summary="string/summary_list_preference"
+                android:dialogTitle="string/dialog_title_list_preference" />
+
+        </PreferenceCategory>
+
+        <PreferenceCategory
+            android:title="string/launch_preferences">
+
+        <PreferenceScreen
+            android:key="screen_preference"
+            android:title="string/title_screen_preference"
+            android:summary="string/summary_screen_preference">
+
+            <CheckBoxPreference
+                android:key="next_screen_checkbox_preference"
+                android:title="string/title_next_screen_toggle_preference"
+                android:summary="string/summary_next_screen_toggle_preference" />
+
+        </PreferenceScreen>
+
+        <PreferenceScreen
+            android:title="string/title_intent_preference"
+            android:summary="string/summary_intent_preference">
+
+            <intent android:action="android.intent.action.VIEW"
+                android:data="http://www.android.com" />
+
+        </PreferenceScreen>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="string/preference_attributes">
+
+        <CheckBoxPreference
+            android:key="parent_checkbox_preference"
+            android:title="string/title_parent_preference"
+            android:summary="string/summary_parent_preference" />
+
+        <CheckBoxPreference
+            android:key="child_checkbox_preference"
+            android:dependency="parent_checkbox_preference"
+            android:layout="?android:attr/preferenceLayoutChild"
+            android:title="string/title_child_preference"
+            android:summary="string/summary_child_preference" />
+
+    </PreferenceCategory>
+
+    -->
 
 </PreferenceScreen>

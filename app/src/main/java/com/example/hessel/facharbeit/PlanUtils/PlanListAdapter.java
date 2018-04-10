@@ -170,7 +170,7 @@ public class PlanListAdapter extends ArrayAdapter<Plan> {
 
                                 Gson gson = new Gson();
 
-                                String json = SP.getString("pref_planlist",null);
+                                String json = SP.getString("pref_planlist","[]");
                                 Type type = new TypeToken<ArrayList<Plan>>() {}.getType();
                                 ArrayList<Plan> planlist2 = gson.fromJson(json,type);
                                 planlist2.add(copyItem);

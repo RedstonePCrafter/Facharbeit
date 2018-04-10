@@ -64,7 +64,6 @@ public class PlanActivity extends AppCompatActivity {
         Log.d(Tag, "oncreate . starting");
         setupBottomNavigationView();
         SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        Log.d(Tag,SP.getString("pref_planlist",null));
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
 
@@ -136,7 +135,7 @@ public class PlanActivity extends AppCompatActivity {
 
     public void loadObject(){
         Gson gson = new Gson();
-        String json = SP.getString("pref_planlist",null);
+        String json = SP.getString("pref_planlist","[]");
         Log.d(Tag,json);
         Type type = new TypeToken<ArrayList<Plan>>() {}.getType();
         ArrayList<Plan> planlist2 = gson.fromJson(json,type);
