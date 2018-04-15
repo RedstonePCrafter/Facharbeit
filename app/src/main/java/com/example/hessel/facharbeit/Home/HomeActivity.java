@@ -334,9 +334,13 @@ public class HomeActivity extends AppCompatActivity {
         yValues.add(new PieEntry(snackCalorie,"Snack"));
 
 
-        int maxCalorie = Integer.parseInt(SP.getString("pref_max_calorie","0"));
+        int maxCalorie = 0;
+         maxCalorie = Integer.parseInt(SP.getString("pref_max_calorie","0"));
         if (maxCalorie==0){
-            maxCalorie = calculateCalorieIntake(mcontext);
+
+                maxCalorie = calculateCalorieIntake(mcontext);
+
+
         }
         int leftCalorie = maxCalorie-breakfastCalorie-lunchCalorie-dinnerCalorie-snackCalorie;
         if (leftCalorie<0){

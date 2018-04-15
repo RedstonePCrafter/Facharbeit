@@ -19,6 +19,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -70,6 +71,7 @@ public class SearchActivity extends AppCompatActivity{
     private UebungListAdapter uebung_adapter;
     private SplitListAdapter split_adapter;
     private PlanListAdapter plan_adapter;
+    private String searchWord = "";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,6 +82,10 @@ public class SearchActivity extends AppCompatActivity{
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+
+
 
 
 
@@ -104,6 +110,17 @@ public class SearchActivity extends AppCompatActivity{
         plan_adapter = new PlanListAdapter(mContext,R.layout.layout_listview_plan,planlist_search,R.layout.layout_bottom_sheet_search);
         listView_plan.setAdapter(plan_adapter);
 
+        listView_plan.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                if (listView_plan.getVisibility()==View.VISIBLE){
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                }else{
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                }
+            }
+        });
+
         search(" ");
     }
 
@@ -113,7 +130,7 @@ public class SearchActivity extends AppCompatActivity{
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.search_menu,menu);
         MenuItem item = menu.findItem(R.id.app_bar_search);
-        SearchView searchView = (SearchView) item.getActionView();
+        final SearchView searchView = (SearchView) item.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -123,6 +140,7 @@ public class SearchActivity extends AppCompatActivity{
             @Override
             public boolean onQueryTextChange(String newText) {
                 //When Text changes
+                searchWord = newText;
                 search(newText);
                 Log.d(TAG,""+newText);
                 return false;
@@ -137,8 +155,17 @@ public class SearchActivity extends AppCompatActivity{
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.app_bar_barcode_scanner) {
-
+        if (id ==android.R.id.home){
+            if (listView_split.getVisibility()==View.VISIBLE){
+                listView_plan.setVisibility(View.VISIBLE);
+                listView_split.setVisibility(View.VISIBLE);
+                listView_uebung.setVisibility(View.VISIBLE);
+                search(searchWord);
+            }
+            else if (listView_uebung.getVisibility()==View.VISIBLE){
+                listView_split.setVisibility(View.VISIBLE);
+                listView_uebung.setVisibility(View.GONE);
+            }
         }
 
         return super.onOptionsItemSelected(item);

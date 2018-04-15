@@ -45,8 +45,8 @@ public class LoginActivity extends AppCompatActivity{
     private String email;
     private String password;
     private CheckBox checkBox;
-    //public static final String URL="http://x4mpp.ddns.net";
-    public static final String URL="http://192.168.178.22";
+    public static final String URL="http://x4mpp.ddns.net";
+    //public static final String URL="http://192.168.178.22";
 
 
     @Override

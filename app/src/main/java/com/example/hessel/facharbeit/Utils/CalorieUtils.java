@@ -84,6 +84,8 @@ public class CalorieUtils {
                     calorieIntake = 1.9*calorieIntake;
                     break;
             }
+        }else {
+            return 3000;
         }
         return (int) calorieIntake;
     }

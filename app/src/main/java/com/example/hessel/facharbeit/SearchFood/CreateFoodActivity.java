@@ -161,6 +161,7 @@ public class CreateFoodActivity extends AppCompatActivity{
 
             }
         };
+        Log.d(Tag,json);
         CreateFoodRequest createFoodRequest = new CreateFoodRequest(json, responseListener);
         RequestQueue queue = Volley.newRequestQueue(CreateFoodActivity.this);
         queue.add(createFoodRequest);
