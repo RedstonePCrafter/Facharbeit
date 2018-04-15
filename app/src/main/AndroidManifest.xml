@@ -3,11 +3,20 @@
     package="com.example.hessel.facharbeit">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />   <!-- Internet permission -->
-    <uses-feature android:name="android.hardware.camera" android:required="true" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- Internet permission -->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
+    <!--
+         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+         Google Maps Android API v2, but you must specify either coarse or fine
+         location permissions for the 'MyLocation' functionality. 
+    -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -16,69 +25,104 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Login.LoginActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleInstance">
+        <activity
+            android:name=".Login.LoginActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Data.DataActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleInstance"/>
-        <activity android:name=".Search.SearchActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleInstance"/>
-        <activity android:name=".Plan.PlanActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleInstance"/>
-        <activity android:name=".Settings.SettingsActivity"
-            android:screenOrientation="portrait"
+        <activity
+            android:name=".Data.DataActivity"
             android:launchMode="singleInstance"
-            android:parentActivityName=".Profile.ProfileActivity"/>
-        <activity android:name=".Home.HomeActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleInstance"/>
-        <activity android:name=".Login.RegisterActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleInstance"/>
-        <activity android:name=".Utils.WalkthroughActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleInstance"/>
-        <activity android:name=".SearchFood.SearchFoodActivity"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".Home.HomeActivity"/>
-        <activity android:name=".Utils.ScannerActivity"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".SearchFood.SearchFoodActivity"/>
-        <activity android:name=".Profile.ProfileActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleInstance"/>
-        <activity android:name=".Login.ForgotPasswordActivity"
-            android:screenOrientation="portrait"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Search.SearchActivity"
             android:launchMode="singleInstance"
-            android:parentActivityName=".Login.LoginActivity"/>
-        <activity android:name=".SearchFood.FoodActivity"
-            android:screenOrientation="portrait"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Plan.PlanActivity"
             android:launchMode="singleInstance"
-            android:parentActivityName=".SearchFood.SearchFoodActivity"/>
-        <activity android:name=".SearchFood.CreateFoodActivity"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".SearchFood.SearchFoodActivity"/>
-        <activity android:name=".Plan.CreatePlanActivity"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".Plan.PlanActivity"/>
-        <activity android:name=".Plan.CreateSplitActivity"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".Plan.PlanActivity"/>
-        <activity android:name=".Plan.CreateUebungActivity"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".Plan.PlanActivity"/>
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Settings.SettingsActivity"
+            android:launchMode="singleInstance"
+            android:parentActivityName=".Profile.ProfileActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Home.HomeActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Login.RegisterActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Utils.WalkthroughActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SearchFood.SearchFoodActivity"
+            android:parentActivityName=".Home.HomeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Utils.ScannerActivity"
+            android:parentActivityName=".SearchFood.SearchFoodActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Profile.ProfileActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Login.ForgotPasswordActivity"
+            android:launchMode="singleInstance"
+            android:parentActivityName=".Login.LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SearchFood.FoodActivity"
+            android:launchMode="singleInstance"
+            android:parentActivityName=".SearchFood.SearchFoodActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SearchFood.CreateFoodActivity"
+            android:parentActivityName=".SearchFood.SearchFoodActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Plan.CreatePlanActivity"
+            android:parentActivityName=".Plan.PlanActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Plan.CreateSplitActivity"
+            android:parentActivityName=".Plan.PlanActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Plan.CreateUebungActivity"
+            android:parentActivityName=".Plan.PlanActivity"
+            android:screenOrientation="portrait" />
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/. 
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".Map.MapsActivity"
+            android:label="@string/title_activity_maps"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

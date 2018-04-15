@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import com.example.hessel.facharbeit.Data.DataActivity;
 import com.example.hessel.facharbeit.Home.HomeActivity;
 import com.example.hessel.facharbeit.Login.LoginActivity;
+import com.example.hessel.facharbeit.Map.MapsActivity;
 import com.example.hessel.facharbeit.Plan.PlanActivity;
 import com.example.hessel.facharbeit.Profile.ProfileActivity;
 import com.example.hessel.facharbeit.R;
@@ -58,7 +59,7 @@ public class BottomNavigationViewHelper {
                         context.startActivity(intent3);
                         break;
                     case R.id.ic_maps:
-                        Intent intent4 = new Intent(context, PlanActivity.class);
+                        Intent intent4 = new Intent(context, MapsActivity.class);
                         context.startActivity(intent4);
                         break;
                     case R.id.ic_settings:

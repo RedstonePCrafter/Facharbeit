@@ -6,4 +6,5 @@
     <string name="spinner_prompt">Choose a country</string>
 
     <string name="snackbar_duration">4000</string>
+    <string name="title_activity_maps">Map</string>
 </resources>
