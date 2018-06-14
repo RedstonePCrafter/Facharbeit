@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
+import com.example.hessel.facharbeit.Plan.PlanActivity;
 import com.example.hessel.facharbeit.R;
 import com.example.hessel.facharbeit.Search.SearchActivity;
 import com.example.hessel.facharbeit.Search.SearchRequest;
@@ -129,20 +130,30 @@ public class CreateFoodActivity extends AppCompatActivity{
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.save) {
-            //if (!value_name.equals("") || !value_name.equals("") || !value_calories==)
-            String value_name = String.valueOf(name.getText());
-            Log.d(Tag,value_name);
-            int value_calories = Integer.parseInt(String.valueOf(calories.getText()));
-            int value_protein = Integer.parseInt(String.valueOf(protein.getText()));
-            int value_carbs = Integer.parseInt(String.valueOf(carbs.getText()));
-            int value_fats = Integer.parseInt(String.valueOf(fats.getText()));
-            String value_unit = String.valueOf(unit.getText());
-            String value_barcode = String.valueOf(barcode.getText());
+            Log.d(Tag, "calories"+String.valueOf(isEmpty(calories)));
+            Log.d(Tag, "protein"+String.valueOf(isEmpty(protein)));
+            Log.d(Tag, "carbs"+String.valueOf(isEmpty(carbs)));
+            Log.d(Tag, "fats"+String.valueOf(isEmpty(fats)));
+            Log.d(Tag, "unit"+String.valueOf(isEmpty(unit)));
+            Log.d(Tag, "barcode"+String.valueOf(isEmptyBarcode(barcode)));
+            Log.d(Tag,"test"+barcode.getText());
+            if (isEmpty(calories) && isEmpty(protein) && isEmpty(carbs) && isEmpty(fats) && isEmpty(unit) && isEmptyBarcode(barcode)) {
+                String value_name = String.valueOf(name.getText());
+                Log.d(Tag, value_name);
+                int value_calories = Integer.parseInt(String.valueOf(calories.getText()));
+                int value_protein = Integer.parseInt(String.valueOf(protein.getText()));
+                int value_carbs = Integer.parseInt(String.valueOf(carbs.getText()));
+                int value_fats = Integer.parseInt(String.valueOf(fats.getText()));
+                String value_unit = String.valueOf(unit.getText());
+                String value_barcode = String.valueOf(barcode.getText()).split(" ")[1];
 
-            Gson gson = new Gson();
-            Log.d(Tag,gson.toJson(new Food(value_name,value_calories,value_protein,value_carbs,value_fats,value_unit,"")));
-            String json = gson.toJson(new Food(value_name,value_calories,value_protein,value_carbs,value_fats,value_unit,""));
-            sendFood(json);
+                Gson gson = new Gson();
+                Log.d(Tag, gson.toJson(new Food(value_name, value_calories, value_protein, value_carbs, value_fats, value_unit, value_barcode)));
+                String json = gson.toJson(new Food(value_name, value_calories, value_protein, value_carbs, value_fats, value_unit, value_barcode));
+                sendFood(json);
+
+                finish();
+            }
 
 
         }
@@ -165,5 +176,12 @@ public class CreateFoodActivity extends AppCompatActivity{
         CreateFoodRequest createFoodRequest = new CreateFoodRequest(json, responseListener);
         RequestQueue queue = Volley.newRequestQueue(CreateFoodActivity.this);
         queue.add(createFoodRequest);
+    }
+
+    private boolean isEmpty(EditText etText) {
+        return etText.getText().toString().trim().length() != 0;
+    }
+    private boolean isEmptyBarcode(TextView textView) {
+        return textView.getText().toString().trim().length() != 7;
     }
 }

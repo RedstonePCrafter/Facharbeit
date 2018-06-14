@@ -98,6 +98,7 @@ public class ProfileActivity extends AppCompatActivity {
         tv_profile_meber_since.setText("Mitglied seit: "+month+" "+year);
 
         selectedImage = (CircleImageView) findViewById(R.id.profile_pic);
+        combinedChart = (CombinedChart) findViewById(R.id.combinedChart);
         try {
             String photoString = SP.getString("pref_profile_picture",null);
             if (photoString != null) {
@@ -106,9 +107,12 @@ public class ProfileActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        try{
+            setupCombinedChart();
+        }catch (Exception e){        }
 
-        combinedChart = (CombinedChart) findViewById(R.id.combinedChart);
-        setupCombinedChart();
+
+
 
     }
 

@@ -36,7 +36,7 @@
 
         <ListPreference
             android:key="pref_sexe"
-            android:title="Sexe"
+            android:title="Sex"
             android:entries="@array/Sexe_entries"
             android:entryValues="@array/Sexe_entries" />
 

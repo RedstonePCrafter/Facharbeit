@@ -45,7 +45,8 @@ public class LoginActivity extends AppCompatActivity{
     private String email;
     private String password;
     private CheckBox checkBox;
-    public static final String URL="http://x4mpp.ddns.net";
+    public static final String URL="http://facharbeit-app.ddns.net";
+    //public static final String URL="http://x4mpp.ddns.net";
     //public static final String URL="http://192.168.178.22";
 
 
@@ -90,7 +91,6 @@ public class LoginActivity extends AppCompatActivity{
         sendRequest();
     }
     public void onclick_forgotPassword(View view){
-        finish();
         LoginActivity.this.startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class));
     }
 
@@ -130,6 +130,7 @@ public class LoginActivity extends AppCompatActivity{
                                 //When synchroniztion is correct implemented ->
                                 //SP.edit().putString("pref_planlist", json).apply();
                                 String username = jsonresponse.getString("username");
+                                Log.d(TAG,username);
                                 String reg_date = jsonresponse.getString("reg_date");
                                 SP.edit().putString("pref_reg_date", reg_date).apply();
                                 SP.edit().putString("pref_username", username).apply();
@@ -153,10 +154,6 @@ public class LoginActivity extends AppCompatActivity{
                     } catch (JSONException e) {
                         e.printStackTrace();
                         Log.d(TAG, "error");
-                        //SP.edit().putBoolean("online", false).apply();
-                        //finish();
-                        //LoginActivity.this.startActivity(new Intent(LoginActivity.this, HomeActivity.class));
-
                     }
 
                 }
@@ -170,11 +167,6 @@ public class LoginActivity extends AppCompatActivity{
                 SP.edit().putBoolean("online", false).apply();
                 LoginActivity.this.startActivity(new Intent(LoginActivity.this, HomeActivity.class));
             }
-
         }
-
-
-
-
     }
 }

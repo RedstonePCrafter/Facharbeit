@@ -35,16 +35,16 @@ public class ConnectHelper {
     public static void checkforConnection(View view,Boolean state) {
         Log.d(Tag,"Cheking Connection ...");
 
-        if (state) {
-            addSnackbar(view, "You are online", "", Color.GREEN, Color.RED,1500,null);
+            if (state) {
+                addSnackbar(view, "You are online", "", Color.GREEN, Color.RED,1500,null);
 
-        } else {
-            View.OnClickListener listener = new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    view.getContext().startActivity(new Intent(view.getContext(), LoginActivity.class));
-                }
-            };
+            } else {
+                View.OnClickListener listener = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        view.getContext().startActivity(new Intent(view.getContext(), LoginActivity.class));
+                    }
+                };
             addSnackbar(view, "You are offline", "RETRY", Color.YELLOW, Color.RED,4000,listener );
         }
 

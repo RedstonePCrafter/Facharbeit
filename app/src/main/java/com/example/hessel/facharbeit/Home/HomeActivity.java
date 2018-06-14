@@ -105,6 +105,7 @@ public class HomeActivity extends AppCompatActivity {
         SP = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("");
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
